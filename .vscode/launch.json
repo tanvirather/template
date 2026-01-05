@@ -1,0 +1,17 @@
+{
+  "configurations": [
+    {
+      "name": "Auth",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "Auth",
+      "program": "${workspaceFolder}/Auth/bin/Debug/net10.0/Zuhid.Auth.dll",
+      "cwd": "${workspaceFolder}/Auth",
+      "stopAtEntry": false,
+      "launchBrowser": {
+        "enabled": true,
+      }
+    }
+
+  ]
+}

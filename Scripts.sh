@@ -1,0 +1,98 @@
+#!/bin/bash
+
+################################################## variables ##################################################
+postgres_image="postgis/postgis:17-master"
+postgres_container="postgres"
+postgres_user="postgres"
+postgres_password="P@ssw0rd"
+dbuser_user="dbuser"
+dbuser_password="P@ssw0rd"
+
+################################################## functions ##################################################
+
+setup(){
+  dotnet tool restore
+  dotnet user-secrets set "postgres_credential" "User Id=$dbuser_user;Password=$dbuser_password;" --project Auth # set secrts
+}
+
+# This script updates all outdated NuGet packages in .NET projects within the current directory.
+update_dotnet_packages() {
+  find . -name "*.csproj" | sort | while read csproj; do
+    echo "Processing project: $csproj"
+    dotnet list "$csproj" package --outdated | grep -E '>' | awk '{print $2, $4}' |
+    while read name version; do
+      echo "Updating package: $name to project: $csproj"
+      dotnet add "$csproj" package "$name"
+    done
+  done
+  # dotnet list package --outdated
+  # dotnet tool update --all # Update all tools
+}
+
+rebuild_postgres_server(){
+  # remove the image
+  docker container rm "$postgres_container" --force
+  # Run the PostgreSQL container
+  docker run --name $postgres_container --publish 5432:5432 --detach \
+    --env "POSTGRES_USER=$postgres_user" \
+    --env "POSTGRES_PASSWORD=$postgres_password" \
+    "$postgres_image"
+  # sleep for a few seconds to let the docker service start up
+  sleep 5
+  # create user 'dbuser'
+  docker exec -it $postgres_container psql -U $postgres_user -c "create user dbuser with superuser password 'P@ssw0rd';"
+}
+
+recreate_database(){
+  # get the database in lower case
+  dbname=${1,,}
+  # kill all connection
+  docker exec -it $postgres_container psql -U $postgres_user -c "
+  revoke connect on database $dbname from public;
+  select pg_terminate_backend(pid)
+  from pg_stat_activity
+  where datname = '$dbname'
+    and pid <> pg_backend_pid();
+  "
+  # drop the database
+  docker exec -it $postgres_container psql -U $postgres_user -c "drop database if exists $dbname;"
+  # create the database
+  docker exec -it $postgres_container psql -U $postgres_user -c "create database $dbname;"
+  # create the __EFMigrationsHistory table
+  docker exec -it $postgres_container psql -U $postgres_user -d $dbname -c '
+  create table if not exists "__EFMigrationsHistory" (
+    "MigrationId" character varying(150) not null,
+    "ProductVersion" character varying(32) not null,
+    constraint "PK___EFMigrationsHistory" primary key ("MigrationId")
+  );'
+}
+
+update_database(){
+  project=$1
+  dotnet build
+  rm -rf $project/Migrations # remove migration folder
+  dotnet ef migrations add initial --project $project --startup-project "$project.Api" # create initial migration
+  dotnet ef migrations script --project $project --startup-project "$project.Api" --output $project/Migrations/Script.sql # create script
+  dotnet ef database update --project $project --startup-project "$project.Api" # update database
+}
+
+run_test() {
+  project=$1
+  rm -rf $project/TestResults
+  dotnet test $project --settings $project/coverlet.runsettings --collect:"XPlat Code Coverage"
+  dotnet reportgenerator -reports:"$project/TestResults/*/coverage.cobertura.xml" -targetdir:"$project/TestResults/CoverageReport" -reporttypes:Html
+  google-chrome $project/TestResults/CoverageReport/index.html &
+  /opt/microsoft/msedge/msedge $project/TestResults/CoverageReport/index.html &
+}
+
+################################################## execute ##################################################
+clear
+# setup
+# update_dotnet_packages
+# rebuild_postgres_server
+
+# recreate_database "Auth"
+# update_database "Auth"
+
+# run_test "Auth.Tests"
+run_test "Base.Tests"
