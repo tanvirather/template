@@ -1,14 +1,11 @@
-using Microsoft.AspNetCore.Mvc;
+using Zuhid.Auth.Entities;
+using Zuhid.Auth.Mappers;
+using Zuhid.Auth.Models;
+using Zuhid.Auth.Repositories;
+using Zuhid.Base;
 
 namespace Zuhid.Auth.Controllers;
 
-[ApiController]
-[Route("[controller]")]
-public class UserController : Controller {
-
-  [HttpGet()]
-  public string Get() {
-    return "User Controller";
-  }
+public class UserController(UserRepository repository, UserMapper mapper) :
+  BaseController<UserRepository, UserMapper, AuthDbContext, UserModel, UserEntity>(repository, mapper) {
 }
-

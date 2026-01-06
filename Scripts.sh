@@ -71,9 +71,9 @@ update_database(){
   project=$1
   dotnet build
   rm -rf $project/Migrations # remove migration folder
-  dotnet ef migrations add initial --project $project --startup-project "$project.Api" # create initial migration
-  dotnet ef migrations script --project $project --startup-project "$project.Api" --output $project/Migrations/Script.sql # create script
-  dotnet ef database update --project $project --startup-project "$project.Api" # update database
+  dotnet ef migrations add initial --project $project --startup-project "$project" # create initial migration
+  dotnet ef migrations script --project $project --startup-project "$project" --output $project/Migrations/Script.sql # create script
+  dotnet ef database update --project $project --startup-project "$project" # update database
 }
 
 run_test() {
@@ -81,8 +81,8 @@ run_test() {
   rm -rf $project/TestResults
   dotnet test $project --settings $project/coverlet.runsettings --collect:"XPlat Code Coverage"
   dotnet reportgenerator -reports:"$project/TestResults/*/coverage.cobertura.xml" -targetdir:"$project/TestResults/CoverageReport" -reporttypes:Html
-  google-chrome $project/TestResults/CoverageReport/index.html &
-  /opt/microsoft/msedge/msedge $project/TestResults/CoverageReport/index.html &
+  # google-chrome $project/TestResults/CoverageReport/index.html &
+  # /opt/microsoft/msedge/msedge $project/TestResults/CoverageReport/index.html &
 }
 
 ################################################## execute ##################################################
@@ -94,5 +94,5 @@ clear
 # recreate_database "Auth"
 # update_database "Auth"
 
-# run_test "Auth.Tests"
-run_test "Base.Tests"
+# run_test "Base.Tests"
+run_test "Auth.Tests"

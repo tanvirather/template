@@ -14,12 +14,13 @@
   "files.exclude": {
     ".config": true,
     ".editorconfig": true,
-    ".gitignore": true,
+    ".gitignore": false,
     "**/.git": true,
     "**/bin": true,
     "**/node_modules": true,
     "**/obj": true,
     "**/package-lock.json": true,
+    "**/Properties": true,
     "License": true,
   },
   "files.watcherExclude": {
@@ -31,6 +32,7 @@
     "**/node_modules": true,
     "**/obj": true,
     "**/package-lock.json": true,
+    "**/Properties": true,
     "License": true,
   },
   "search.exclude": {
@@ -42,14 +44,17 @@
     "**/node_modules": true,
     "**/obj": true,
     "**/package-lock.json": true,
+    "**/Properties": true,
     "License": true,
   },
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
-    "*.cs": "${capture}.*"
+    "appsettings.json": "appsettings.*.json",
+    "*.cs": "${capture}.*",
   },
+  "dotnet.automaticallyCreateSolutionInWorkspace": false,
+  "editor.renderFinalNewline": "on",
   "files.insertFinalNewline": true,
   "omnisharp.enableEditorConfigSupport": true,
-  "editor.renderFinalNewline": "on",
 }

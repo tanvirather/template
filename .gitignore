@@ -1,6 +1,7 @@
 .git
 bin
 Migrations
+node_modules
 obj
 TestResults
 tmp
