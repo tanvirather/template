@@ -1,8 +1,9 @@
 <script setup>
+import Login from "./pages/Login.vue";
 </script>
 
 <template>
-  Hello
+  <Login />
 </template>
 
 <style scoped></style>
