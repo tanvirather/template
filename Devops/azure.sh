@@ -4,27 +4,30 @@
 project="auth"
 location="centralus"
 
-# RESOURCE_GROUP="${BASE_NAME}-rg"
-# RESOURCE_GROUP_AKS="${BASE_NAME}-aks-rg"
-# RESOURCE_GROUP_NETWORK_WATCHER="NetworkWatcherRG"
-
 ################################################## functions ##################################################L
-# delete_resource_groups(){
+# resource_groups(){
 #   az group delete --name $RESOURCE_GROUP_NETWORK_WATCHER --yes 2>/dev/null
 #   # az group delete --name $RESOURCE_GROUP_AKS --yes 2>/dev/null
 #   # az group delete --name $RESOURCE_GROUP --yes 2>/dev/null
 #   # az group create --name $RESOURCE_GROUP --location $LOCATION 1>/dev/null && echo "Resource group created : $RESOURCE_GROUP"
 # }
 
-test_service(){
+stop_services(){
+  az webapp stop --resource-group auth-test-rg --name zuhid-auth-test
+  az webapp stop --resource-group auth-prod-rg --name zuhid-auth-prod
+  az webapp stop --resource-group auth-prod-rg --name zuhid-auth-prod --slot staging
+}
+
+start_services(){
+  az webapp start --resource-group auth-test-rg --name zuhid-auth-test
+  az webapp start --resource-group auth-prod-rg --name zuhid-auth-prod
+  az webapp start --resource-group auth-prod-rg --name zuhid-auth-prod --slot staging
+}
+
+create_test(){
   resource_group="${project}-test-rg"
   # az group delete --name $resource_group --yes 2>/dev/null
   # az group create --name $resource_group --location $location 1>/dev/null && echo "Resource group created : $resource_group"
-  # az deployment group create --resource-group $resource_group --template-file biceps/web_app.bicep --parameters \
-  #   location=$location \
-  #   plan_name="${project}-plan" \
-  #   plan_sku="F1"
-
 
   az deployment group create -g $resource_group -f biceps/web_app.bicep -p \
     org='zuhid' \
@@ -33,7 +36,7 @@ test_service(){
     slotName='staging'
 }
 
-prod_service(){
+create_prod(){
   resource_group="${project}-prod-rg"
   # az group delete --name $resource_group --yes 2>/dev/null
   # az group create --name $resource_group --location $location 1>/dev/null && echo "Resource group created : $resource_group"
@@ -45,29 +48,27 @@ prod_service(){
     slotName='staging'
 }
 
-stop_service(){
-  az webapp stop --resource-group auth-test-rg --name zuhid-auth-test
-  az webapp stop --resource-group auth-prod-rg --name zuhid-auth-prod
-  az webapp stop --resource-group auth-prod-rg --name zuhid-auth-prod --slot staging
-}
-
-start_service(){
-  az webapp start --resource-group auth-test-rg --name zuhid-auth-test
-  az webapp start --resource-group auth-prod-rg --name zuhid-auth-prod
-  az webapp start --resource-group auth-prod-rg --name zuhid-auth-prod --slot staging
+function buildAndDeploy() {
+  repo=$1
+  image=$2
+  version=$3
+  docker rmi "${repo}/${image}:${version}" 2>/dev/null
+  docker build --tag ${repo}/${image}:${version} --file ../Auth/Dockerfile ../ # run from current folder
+  docker image ls --format '{{.Repository}}:{{.Tag}}' | grep "${repo}/${image}:${version}"
+  docker push "${repo}/${image}:${version}" # push container https://hub.docker.com/u/tzather
 }
 
 ################################################## exec ##################################################
 
 clear
 # az login
-# delete_resource_groups
-# stop_service
-# start_service
+# resource_groups
+# stop_services
+# start_services
 
-# test_service
-# prod_service
+# create_test
+# create_prod
 
 
-# az deployment group create --resource-group $RESOURCE_GROUP --template-file biceps/acr.bicep --parameters @biceps/_parameters.dev.json
+buildAndDeploy "zuhiddev.azurecr.io" "auth" "v1"
 

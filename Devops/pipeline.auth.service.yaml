@@ -10,6 +10,7 @@ variables:
   # appNameTest
   # appNameProd
   # slotName
+  # comments
 stages:
   ################################################## Build ##################################################
   - stage: Build
