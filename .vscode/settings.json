@@ -12,7 +12,7 @@
     "source.organizeImports": "always",
   },
   "files.exclude": {
-    ".config": true,
+    ".config": false,
     ".editorconfig": true,
     ".gitignore": false,
     "**/.git": true,

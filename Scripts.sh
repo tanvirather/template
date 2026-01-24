@@ -69,11 +69,13 @@ recreate_database(){
 
 update_database(){
   project=$1
-  dotnet build
+  # rm -rf Identity/bin # remove bin folder to avoid build issue
   rm -rf $project/Migrations # remove migration folder
-  dotnet ef migrations add initial --project $project --startup-project "$project" # create initial migration
-  dotnet ef migrations script --project $project --startup-project "$project" --output $project/Migrations/Script.sql # create script
-  dotnet ef database update --project $project --startup-project "$project" # update database
+  dotnet build
+  dotnet ef migrations add initial --project $project --startup-project $project # create initial migration
+  dotnet ef migrations script --project $project --startup-project $project --output $project/Migrations/Script.sql # create script
+  # dotnet ef database drop --project $project --startup-project $project --force # drop database
+  dotnet ef database update --project $project --startup-project $project # update database
 }
 
 run_test() {
@@ -90,6 +92,9 @@ clear
 # setup
 # update_dotnet_packages
 # rebuild_postgres_server
+
+recreate_database "Identity"
+update_database "Identity"
 
 # recreate_database "Auth"
 # update_database "Auth"

@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Zuhid.Auth.Entities;
 using Zuhid.Base;
 
@@ -5,6 +6,11 @@ namespace Zuhid.Auth.Repositories;
 
 public class UserRepository(AuthDbContext context) : BaseRepository<AuthDbContext, UserEntity, UserEntity>(context) {
   protected override IQueryable<UserEntity> Query => _context.Users;
+
+  internal async Task<UserEntity?> SelectByEmail(string email) {
+    return await Query.Where(n => n.Email == email).FirstOrDefaultAsync();
+  }
+
   // .Select(entity => new UserModel {
   //   Id = entity.Id,
   //   Email = entity.Email,

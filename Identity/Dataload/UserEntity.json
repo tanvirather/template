@@ -1,0 +1,14 @@
+[
+  {
+    "Id": "b55ebae9-e380-4d96-97eb-a3d2a3d6fb9a",
+    "ConcurrencyStamp": "458934f5-479f-4191-be41-ce266bb764aa",
+    "UserName": "admin@company.com",
+    "NormalizedUserName": "ADMIN@COMPANY.COM",
+    "Email": "admin@company.com",
+    "NormalizedEmail": "ADMIN@COMPANY.COM",
+    "SecurityStamp": "VVD6UA46URX73EEM6EFSZCIVIRQOTHNA",
+    "PasswordHash": "AQAAAAEAACcQAAAAEKDFFBqSMml28EieyYqCDaXwG/I/oGXpF1OOGFF7z4b8wITnQI1T/6XFCcBI3XmGUA==",
+    "UpdatedById": "b55ebae9-e380-4d96-97eb-a3d2a3d6fb9a",
+    "UpdatedDateTime": "2000-01-12T00:00:00Z"
+  }
+]
