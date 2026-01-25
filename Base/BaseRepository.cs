@@ -2,9 +2,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Zuhid.Base;
 
-public abstract class BaseRepository<TContext, TEntity, TModel>(TContext context) where TContext : DbContext
-  where TEntity : class, IEntity
-  where TModel : class, IEntity {
+public abstract class BaseRepository<TContext, TModel, TEntity>(TContext context) where TContext : DbContext
+  where TModel : class, IEntity
+  where TEntity : class, IEntity {
   protected readonly TContext _context = context;
   protected abstract IQueryable<TModel> Query { get; }
 

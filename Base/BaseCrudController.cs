@@ -6,7 +6,7 @@ namespace Zuhid.Base;
 [ApiController]
 [Route("[controller]")]
 public class BaseCrudController<TRepository, TMapper, TContext, TModel, TEntity>(TRepository repository, TMapper mapper) : ControllerBase
-    where TRepository : BaseRepository<TContext, TEntity, TEntity>
+    where TRepository : BaseRepository<TContext, TModel, TEntity>
     where TMapper : BaseMapper<TModel, TEntity>
     where TContext : DbContext
     where TModel : class, IEntity, new()
@@ -14,8 +14,7 @@ public class BaseCrudController<TRepository, TMapper, TContext, TModel, TEntity>
 
   [HttpGet()]
   public virtual async Task<List<TModel>> Get(Guid id = default) {
-    var entityList = await repository.Get(id).ConfigureAwait(false);
-    return mapper.GetModelList(entityList);
+    return await repository.Get(id).ConfigureAwait(false);
   }
 
   [HttpPost]
