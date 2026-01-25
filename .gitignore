@@ -1,8 +1,9 @@
 .git
+.venv
 bin
+dist
 Migrations
 node_modules
 obj
 TestResults
 tmp
-.venv

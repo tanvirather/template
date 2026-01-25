@@ -6,4 +6,5 @@
   <Project Path="Identity/Identity.csproj" />
   <Project Path="Product.Tests/Product.Tests.csproj" />
   <Project Path="Product/Product.csproj" />
+  <Project Path="Web.BlazorWasm/Web.BlazorWasm.csproj" />
 </Solution>

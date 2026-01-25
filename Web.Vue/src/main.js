@@ -1,4 +1,5 @@
 import router from '@/router';
+import { registerSW } from 'virtual:pwa-register';
 import { createApp } from 'vue';
 import App from './App.vue';
 import './style.css';
@@ -12,6 +13,7 @@ function registerGlobalComponents(app) {
 }
 
 const app = createApp(App);
+registerSW();
 registerGlobalComponents(app)
 app.use(router);
 app.mount('#app');

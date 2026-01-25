@@ -9,6 +9,15 @@
         "cwd": "Auth"
       },
       "group": "build"
+    },
+    {
+      "label": "AuthTest",
+      "type": "shell",
+      "command": "dotnet test",
+      "options": {
+        "cwd": "Auth.Tests"
+      },
+      "group": "build"
     }
   ]
 }

@@ -55,3 +55,11 @@ Contact
 - If you need help, add an issue or contact the repository maintainers.
 
 For per-project details (build/run instructions or specific configuration), check the README inside each project folder.
+
+
+# Commands
+```sh
+dotnet tool update --all
+dotnet tool restore
+dotnet format
+```
