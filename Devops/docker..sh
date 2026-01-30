@@ -59,6 +59,15 @@ mailhog_install(){
   docker run --detach --publish 587:587 --publish 8025:8025 --name mailhog $mailhog_image
 }
 
+docker_install(){
+  # open in http://localhost:8080
+  # docker run --name nginx -p 8080:80 -d nginx
+  docker container rm nginx --force
+  # docker run --name nginx -p 8080:80 -v ../nginx/html:/usr/share/nginx/html:ro -d nginx
+
+  docker run --name nginx -p 8080:80 -v ../nginx/nginx.conf:/etc/nginx/nginx.conf:ro -v ../nginx/html:/usr/share/nginx/html:ro nginx
+}
+
 ollama_install(){
   # https://hub.docker.com/r/ollama/ollama
   # open in http://localhost:11434
@@ -99,9 +108,10 @@ clear
 # postgres_install
 # mysql_install
 # mailhog_install
+docker_install
 # ollama_install
 # text_to_speech_install
 # cosmos_install
 
-display_all
+# display_all
 
