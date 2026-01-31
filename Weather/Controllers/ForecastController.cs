@@ -19,7 +19,7 @@ public class ForecastController(Container container) : ControllerBase {
   }
 
   [HttpPost]
- public async Task<ActionResult<MyItem>> Add([FromBody] MyItem input) {
+  public async Task<ActionResult<MyItem>> Add([FromBody] MyItem input) {
     if (string.IsNullOrWhiteSpace(input.id)) {
       input.id = Guid.NewGuid().ToString("n");
     }
