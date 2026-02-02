@@ -59,7 +59,7 @@ mailhog_install(){
   docker run --detach --publish 587:587 --publish 8025:8025 --name mailhog $mailhog_image
 }
 
-docker_install(){
+nginx_install(){
   # open in http://localhost:8080
   # docker run --name nginx -p 8080:80 -d nginx
   docker container rm nginx --force
@@ -108,7 +108,7 @@ clear
 # postgres_install
 # mysql_install
 # mailhog_install
-docker_install
+# nginx_install
 # ollama_install
 # text_to_speech_install
 # cosmos_install

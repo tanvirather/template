@@ -1,3 +1,4 @@
+import { apiClient } from '@/lib';
 import router from '@/router';
 import { registerSW } from 'virtual:pwa-register';
 import { createApp } from 'vue';
@@ -16,5 +17,6 @@ const app = createApp(App);
 registerSW();
 registerGlobalComponents(app)
 app.use(router);
+app.provide('apiClient', apiClient)
 app.mount('#app');
 

@@ -1,13 +1,21 @@
 <!-------------------------------------------------- script -------------------------------------------------->
 <script setup>
-import Password from '../components/Password.vue';
+import { LoginStore } from '@/store';
+import { inject, ref } from 'vue';
 
+const apiClient = inject('apiClient');
+
+const model = ref({
+  username: 'admin@company.com',
+  password: 'P@ssw0rd'
+});
 
 /************************* emits *************************/
 /************************* computed *************************/
 /************************* functions *************************/
-function login() {
-  console.log("Login button clicked");
+async function login() {
+  await new LoginStore(apiClient).login(model.value);
+  // console.log("Login button clicked" + JSON.stringify(model.value));
 }
 </script>
 
@@ -15,8 +23,8 @@ function login() {
 <template>
   <div>
     <Card title="Login" saveText="Login" cancelText="" @onSubmit="login">
-      <Input label="Username" />
-      <Password label="Password" />
+      <Input label="Username" v-model="model.username" />
+      <Password label="Password" v-model="model.password" />
     </Card>
   </div>
 </template>
