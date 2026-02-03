@@ -113,5 +113,5 @@ clear
 # text_to_speech_install
 # cosmos_install
 
-# display_all
+display_all
 

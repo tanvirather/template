@@ -50,7 +50,7 @@ public static class WebApplicationExtension {
     app.MapGet("/", async context => await context.Response.WriteAsync("""
     <html>
     <body style='padding:100px 0;text-align:center;font-size:xxx-large;'>
-      <a href='/swagger/index.html'>View Swagger</a>
+      <a href='./swagger/index.html'>View Swagger</a>
     </body>
     </html>
     """));

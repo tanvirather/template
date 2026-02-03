@@ -1,3 +1,5 @@
+using Zuhid.Identity.Models;
+
 namespace Zuhid.Identity;
 
 public class AppSetting(IConfiguration configuration) {
@@ -6,6 +8,8 @@ public class AppSetting(IConfiguration configuration) {
   public string CorsOrigin { get; set; } = "CorsOrigin";
   public string Identity { get; set; } = GetConnectionString(configuration, "Identity");
   public string Log { get; set; } = GetConnectionString(configuration, "Log");
+
+  public IdentityModel IdentityModel => configuration.GetSection("IdentityModel").Get<IdentityModel>() ?? new IdentityModel();
 
   /// <summary>
   /// Get Connection string and replace "[postgres_credential]" with value from secrets

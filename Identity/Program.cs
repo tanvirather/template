@@ -1,11 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Zuhid.Base;
 using Zuhid.Identity.Entities;
 using Zuhid.Identity.Services;
-
-// using Microsoft.AspNetCore.Authentication.JwtBearer;
-// using Microsoft.EntityFrameworkCore;
-// using Zuhid.Identity.Entities;
 
 namespace Zuhid.Identity;
 
@@ -22,35 +19,13 @@ partial class Program {
       options.Password.RequireNonAlphanumeric = true;
       options.Password.RequireUppercase = true;
     })
-    .AddEntityFrameworkStores<IdentityContext>();
-    builder.Services.AddTransient<SecurityService, SecurityService>();
-
-
+      // .AddRoles<IdentityRole>()
+      .AddSignInManager()
+      .AddEntityFrameworkStores<IdentityContext>()
+      .AddDefaultTokenProviders();
+    builder.Services.AddTransient<ITokenService>(_ => new JwtTokenService(appSetting.IdentityModel));
     builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
     builder.Services.AddAuthorization();
-
     builder.BuildServices().Run();
-
-
-
-    // // Add authentication/authorization
-    // builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
-    // builder.Services.AddAuthorization();
-
-    // builder.Services.AddControllers();
-    // builder.Services.AddEndpointsApiExplorer();
-    // builder.Services.AddSwaggerGen();
-
-    // var app = builder.Build();
-    // if (app.Environment.IsDevelopment()) {
-    //   app.UseSwagger();
-    //   app.UseSwaggerUI();
-    // }
-    // // Important: order is auth then authorization
-    // app.UseAuthentication();
-    // app.UseAuthorization();
-    // app.MapControllers();
-
-    // app.Run();
   }
 }
