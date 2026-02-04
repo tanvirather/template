@@ -13,6 +13,18 @@
       }
     },
     {
+      "name": "Identity",
+      "type": "coreclr",
+      "request": "launch",
+      // "preLaunchTask": "Identity",
+      "program": "${workspaceFolder}/Identity/bin/Debug/net10.0/Zuhid.Identity.dll",
+      "cwd": "${workspaceFolder}/Identity",
+      "stopAtEntry": false,
+      "launchBrowser": {
+        "enabled": true,
+      }
+    },
+    {
       "name": "Product",
       "type": "coreclr",
       "request": "launch",

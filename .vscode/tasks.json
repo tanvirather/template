@@ -18,6 +18,15 @@
         "cwd": "Auth.Tests"
       },
       "group": "build"
-    }
+    },
+    {
+      "label": "Identity",
+      "type": "shell",
+      "command": "dotnet build",
+      "options": {
+        "cwd": "Identity"
+      },
+      "group": "build"
+    },
   ]
 }

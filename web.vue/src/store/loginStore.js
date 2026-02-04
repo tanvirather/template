@@ -7,9 +7,8 @@ export class LoginStore {
   }
 
   async login(model) {
-    // alert(model);
     let result = await this.#apiClient.post(this.#url + "/login", model);
-    alert(result.token);
+    console.log(result.token);
     return result;
   }
 
