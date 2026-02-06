@@ -105,7 +105,7 @@ clear
 # remove_all_container
 # remove_all_image
 
-# postgres_install
+postgres_install
 # mysql_install
 # mailhog_install
 # nginx_install

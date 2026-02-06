@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ################################################## variables ##################################################
-postgres_image="postgis/postgis:17-master"
+postgres_image="postgis/postgis:16-3.5" # "postgis/postgis:17-master"
 postgres_container="postgres"
 postgres_user="postgres"
 postgres_password="P@ssw0rd"
@@ -10,9 +10,24 @@ dbuser_password="P@ssw0rd"
 
 ################################################## functions ##################################################
 
-setup(){
+rebuild_postgres_server(){
+  # remove the image
+  docker container rm "$postgres_container" --force
+  # Run the PostgreSQL container
+  docker run --name $postgres_container --publish 5432:5432 --detach \
+    --env "POSTGRES_USER=$postgres_user" \
+    --env "POSTGRES_PASSWORD=$postgres_password" \
+    "$postgres_image"
+  # sleep for a few seconds to let the docker service start up
+  sleep 5
+  # create user 'dbuser'
+  docker exec -it $postgres_container psql -U $postgres_user -c "create user dbuser with superuser password 'P@ssw0rd';"
+}
+
+solution_initilize(){
   dotnet tool restore
-  dotnet user-secrets set "postgres_credential" "User Id=$dbuser_user;Password=$dbuser_password;" --project Auth # set secrts
+  dotnet user-secrets set "postgres_credential" "User Id=$dbuser_user;Password=$dbuser_password;" --project Identity # set secrets
+  npm -C web.vue install
 }
 
 # This script updates all outdated NuGet packages in .NET projects within the current directory.
@@ -27,20 +42,6 @@ update_dotnet_packages() {
   done
   # dotnet list package --outdated
   # dotnet tool update --all # Update all tools
-}
-
-rebuild_postgres_server(){
-  # remove the image
-  docker container rm "$postgres_container" --force
-  # Run the PostgreSQL container
-  docker run --name $postgres_container --publish 5432:5432 --detach \
-    --env "POSTGRES_USER=$postgres_user" \
-    --env "POSTGRES_PASSWORD=$postgres_password" \
-    "$postgres_image"
-  # sleep for a few seconds to let the docker service start up
-  sleep 5
-  # create user 'dbuser'
-  docker exec -it $postgres_container psql -U $postgres_user -c "create user dbuser with superuser password 'P@ssw0rd';"
 }
 
 recreate_database(){
@@ -69,12 +70,11 @@ recreate_database(){
 
 update_database(){
   project=$1
-  # rm -rf Identity/bin # remove bin folder to avoid build issue
   rm -rf $project/Migrations # remove migration folder
-  dotnet build
+  # dotnet build
   dotnet ef migrations add initial --project $project --startup-project $project # create initial migration
   dotnet ef migrations script --project $project --startup-project $project --output $project/Migrations/Script.sql # create script
-  # dotnet ef database drop --project $project --startup-project $project --force # drop database
+  dotnet ef database drop --project $project --startup-project $project --force # drop database
   dotnet ef database update --project $project --startup-project $project # update database
 }
 
@@ -89,9 +89,9 @@ run_test() {
 
 ################################################## execute ##################################################
 clear
-# setup
-# update_dotnet_packages
 # rebuild_postgres_server
+# solution_initilize
+# update_dotnet_packages
 
 # recreate_database "Identity"
 update_database "Identity"

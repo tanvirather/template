@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Zuhid.Identity.Models;
 
 namespace Zuhid.Identity;
