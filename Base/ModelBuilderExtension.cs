@@ -27,6 +27,7 @@ public static class ModelBuilderExtension {
   }
 
   public static void LoadCsvData<TEntity>(this ModelBuilder builder) where TEntity : class, new() {
+    // Console.WriteLine($"Loading CSV data for {typeof(TEntity).Name}...");
     var lines = File.ReadAllLines($"Dataload/{typeof(TEntity).Name}.csv");
     if (lines.Length == 0) {
       return;
@@ -40,6 +41,7 @@ public static class ModelBuilderExtension {
       }
       var values = line.Split(',');
       var entity = new TEntity();
+      // Console.WriteLine($"Processing line: {line}");
       for (var i = 0; i < headers.Length; i++) {
         var prop = typeof(TEntity).GetProperty(headers[i], BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
         var value = ConvertValue(values[i], prop!.PropertyType);
