@@ -2,9 +2,9 @@
 /************************* Props *************************/
 
 const columns = [
-  { key: 'name', title: 'Name' },
-  { key: 'age', title: 'Age' },
-  { key: 'email', title: 'Email' },
+  { key: 'name', title: 'Name', type: 'text' },
+  { key: 'age', title: 'Age', type: 'number' },
+  { key: 'email', title: 'Email', type: 'email' },
 ]
 
 const users = [
