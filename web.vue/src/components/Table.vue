@@ -19,9 +19,10 @@ const props = defineProps({
       </tr>
     </thead>
     <tbody>
-      <tr v-for="row in rows" :key="row.id">
+      <tr v-for="row in rows" :id="row.id" :key="row.id">
         <td v-for="col in columns" :key="col.key">
           <input v-if="col.type === 'text'" type="text" v-model="row[col.key]" />
+          <input v-else-if="col.type === 'hidden'" type="hidden" v-model="row[col.key]" />
           <input v-else-if="col.type === 'number'" type="number" v-model="row[col.key]" />
           <input v-else-if="col.type === 'email'" type="email" v-model="row[col.key]" />
           <input v-else-if="col.type === 'date'" type="date" v-model="row[col.key]" />

@@ -1,25 +1,39 @@
 <script setup>
+
+import { UserStore } from '@/store';
+import { inject, onMounted, ref, toRaw } from 'vue';
+
+const apiClient = inject('apiClient');
+
 /************************* Props *************************/
 
 const columns = [
-  { key: 'name', title: 'Name', type: 'text' },
-  { key: 'age', title: 'Age', type: 'number' },
+  // { key: 'id', title: 'Id', type: 'hidden' },
   { key: 'email', title: 'Email', type: 'email' },
 ]
 
-const users = [
-  { id: 1, name: 'Ada Lovelace', email: 'ada@history.dev', age: 36, createdAt: '2021-01-31' },
-  { id: 2, name: 'Grace Hopper', email: 'grace@navy.mil', age: 85, createdAt: '2020-03-12' },
-];
+let users = ref([])
 
 /************************* emits *************************/
 /************************* computed *************************/
 /************************* functions *************************/
+onMounted(async () => {
+  users.value = await new UserStore(apiClient).get();
+}); 
+function add() {
+  users.value.push({email: 'test@example.com'});
+}
+async function save() {
+  await new UserStore(apiClient).save(toRaw(users.value));
+}
+
 </script>
 
 <!-------------------------------------------------- template -------------------------------------------------->
 <template>
+  <input type="button" value="Add" @click="add" />
   <Table :columns="columns" :rows="users"/>
+  <input type="button" value="Save" @click="save" />
 </template>
 
 <!-------------------------------------------------- style -------------------------------------------------->
