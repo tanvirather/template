@@ -11,16 +11,18 @@ partial class Program {
     var builder = WebApplicationExtension.AddServices(args);
     var appSetting = new AppSetting(builder.Configuration);
     builder.AddDatabase<IdentityContext, IdentityContext>(appSetting.Identity);
-    builder.Services.AddIdentityCore<UserEntity>(options => {
-      options.User.RequireUniqueEmail = true;
-      options.Password.RequiredLength = 8;
-      options.Password.RequireDigit = true;
-      options.Password.RequireLowercase = true;
-      options.Password.RequireNonAlphanumeric = true;
-      options.Password.RequireUppercase = true;
-    })
-      // .AddRoles<IdentityRole>()
+    builder.Services
+      .AddIdentityCore<UserEntity>(options => {
+        options.User.RequireUniqueEmail = true;
+        options.Password.RequiredLength = 8;
+        options.Password.RequireDigit = true;
+        options.Password.RequireLowercase = true;
+        options.Password.RequireNonAlphanumeric = true;
+        options.Password.RequireUppercase = true;
+      })
+      .AddRoles<RoleEntity>()
       .AddSignInManager()
+      // .AddRoleManager<RoleManager<UserRole>>()
       .AddEntityFrameworkStores<IdentityContext>()
       .AddDefaultTokenProviders();
     builder.Services.AddTransient<ITokenService>(_ => new JwtTokenService(appSetting.IdentityModel));
