@@ -12,6 +12,8 @@ public class Program {
     var app = builder.BuildServices();
     // app.MapGet("/api/health", () => new { status = "ok", time = DateTimeOffset.UtcNow });
     app.MapHub<ChatHub>("/hubs/chat" /*, options => { options.Transports = ... }*/);
+    app.MapHub<TableHub>("/hubs/table");
+    app.MapHub<UserHub>("/hubs/user");
     app.Run();
   }
 }
