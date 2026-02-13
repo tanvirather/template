@@ -1,5 +1,5 @@
 <script setup>
-import * as signalR from '@microsoft/signalr';
+import { SignalrClient } from '@/lib';
 import { onMounted, ref } from 'vue';
 /************************* Props *************************/
 const totalViews = ref(0);
@@ -8,32 +8,41 @@ const totalViews = ref(0);
 /************************* computed *************************/
 /************************* functions *************************/
 onMounted(async () => {
-  console.log('onMounted');
-  // Create a connection to the SignalR hub
-  var connection = new signalR.HubConnectionBuilder()
-    .withUrl('http://localhost:5103/hubs/user', {
-      withCredentials: false
-    })
-    .configureLogging(signalR.LogLevel.Information)
-    .build();
-  console.log(`connection ${JSON.stringify(connection)}`);
 
-    // start the connection
-  try {
-    await connection.start();
-    console.log('SignalR Connected.');
-  } catch (err) {
-    console.error('SignalR Connection Error: ', err);
-  }
-
-  // connect to the method that the server hub will call to send updates, e.g. "myClientFunction"
-  connection.on('myClientFunction', (count) => {
+  var signalrClient = new SignalrClient("http://localhost:5103/hubs", "user");
+  await signalrClient.start();
+  signalrClient.connection.on('myClientFunction', (count) => {
     console.log(`Received count from server: ${count}`);
     totalViews.value = count;
   });
+  await signalrClient.connection.send('myServerFunction');
 
-  // invoke hub methods from the client, e.g. "myServerFunction"
-  await connection.send('myServerFunction');
+
+  // // Create a connection to the SignalR hub
+  // var connection = new signalR.HubConnectionBuilder()
+  //   .withUrl('http://localhost:5103/hubs/user', {
+  //     withCredentials: false
+  //   })
+  //   .configureLogging(signalR.LogLevel.Information)
+  //   .build();
+  // console.log(`connection ${JSON.stringify(connection)}`);
+
+  //   // start the connection
+  // try {
+  //   await connection.start();
+  //   console.log('SignalR Connected.');
+  // } catch (err) {
+  //   console.error('SignalR Connection Error: ', err);
+  // }
+
+  // // connect to the method that the server hub will call to send updates, e.g. "myClientFunction"
+  // connection.on('myClientFunction', (count) => {
+  //   console.log(`Received count from server: ${count}`);
+  //   totalViews.value = count;
+  // });
+
+  // // invoke hub methods from the client, e.g. "myServerFunction"
+  // await connection.send('myServerFunction');
 });
 </script>
 
