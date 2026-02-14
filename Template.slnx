@@ -1,4 +1,9 @@
 <Solution>
+  <Folder Name="/Weather/">
+    <Project Path="Weather/Weather.Api/Weather.Api.csproj" />
+    <Project Path="Weather/Weather.Jobs/Weather.Jobs.csproj" />
+    <Project Path="Weather/Weather/Weather.csproj" />
+  </Folder>
   <Project Path="Auth.Tests/Auth.Tests.csproj" />
   <Project Path="Auth/Auth.csproj" />
   <Project Path="Base.Tests/Base.Tests.csproj" />
@@ -6,6 +11,5 @@
   <Project Path="Identity/Identity.csproj" />
   <Project Path="Product.Tests/Product.Tests.csproj" />
   <Project Path="Product/Product.csproj" />
-  <Project Path="Weather/Weather.csproj" />
   <Project Path="Web.BlazorWasm/Web.BlazorWasm.csproj" />
 </Solution>
