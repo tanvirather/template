@@ -93,8 +93,8 @@ clear
 # solution_initilize
 # update_dotnet_packages
 
-recreate_database "Identity"
-update_database "Identity"
+# recreate_database "Identity"
+# update_database "Identity"
 # recreate_database "Auth"
 # update_database "Auth"
 # recreate_database "Product"

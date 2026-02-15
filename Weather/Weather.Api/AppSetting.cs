@@ -1,0 +1,20 @@
+namespace Zuhid.Weather.Api;
+
+public class AppSetting(IConfiguration configuration) {
+  public string Name { get; set; } = "Weather";
+  public string Version { get; set; } = "1.0";
+  public string CorsOrigin { get; set; } = "CorsOrigin";
+  public string Weather { get; set; } = GetConnectionString(configuration, "Weather");
+  public string Log { get; set; } = GetConnectionString(configuration, "Log");
+
+  /// <summary>
+  /// Get Connection string and replace "[postgres_credential]" with value from secrets
+  /// </summary>
+  /// <param name="configuration"></param>
+  /// <param name="connString"></param>
+  /// <returns></returns>
+  private static string GetConnectionString(IConfiguration configuration, string connString) {
+    return (configuration.GetConnectionString(connString) ?? "")
+      .Replace("[postgres_credential]", configuration.GetValue<string>("postgres_credential"), StringComparison.Ordinal);
+  }
+}

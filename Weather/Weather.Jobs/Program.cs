@@ -1,4 +1,4 @@
-using Zuhid.Weather.Jobs.Etls;
+using Zuhid.Weather.Etls;
 
 namespace Zuhid.Weather.Jobs;
 

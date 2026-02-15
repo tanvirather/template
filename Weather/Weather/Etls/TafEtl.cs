@@ -4,7 +4,7 @@ using System.Net.Http.Json;
 using Zuhid.Weather.AviationModels;
 using Zuhid.Weather.Entities;
 
-namespace Zuhid.Weather.Jobs.Etls;
+namespace Zuhid.Weather.Etls;
 
 public class TafEtl {
   public async Task Run() {
