@@ -6,6 +6,8 @@ public class AppSetting(IConfiguration configuration) {
   public string CorsOrigin { get; set; } = "CorsOrigin";
   public string Weather { get; set; } = GetConnectionString(configuration, "Weather");
   public string Log { get; set; } = GetConnectionString(configuration, "Log");
+  // https://localhost:8081/_explorer/index.html
+  public string Weather_Cosmos { get; set; } = GetCosmos(configuration, "Weather_Cosmos");
 
   /// <summary>
   /// Get Connection string and replace "[postgres_credential]" with value from secrets
@@ -16,5 +18,9 @@ public class AppSetting(IConfiguration configuration) {
   private static string GetConnectionString(IConfiguration configuration, string connString) {
     return (configuration.GetConnectionString(connString) ?? "")
       .Replace("[postgres_credential]", configuration.GetValue<string>("postgres_credential"), StringComparison.Ordinal);
+  }
+  private static string GetCosmos(IConfiguration configuration, string connString) {
+    return (configuration.GetConnectionString(connString) ?? "")
+      .Replace("[cosmos_credential]", configuration.GetValue<string>("cosmos_credential"), StringComparison.Ordinal);
   }
 }

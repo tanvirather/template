@@ -27,6 +27,7 @@ rebuild_postgres_server(){
 solution_initilize(){
   dotnet tool restore
   dotnet user-secrets set "postgres_credential" "User Id=$dbuser_user;Password=$dbuser_password;" --project Identity # set secrets
+  dotnet user-secrets set "cosmos_credential" "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==" --project Identity # set secrets
   npm -C web.vue install
 }
 

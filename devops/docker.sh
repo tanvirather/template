@@ -77,6 +77,7 @@ ollama_install(){
 
 cosmos_install(){
   # https://learn.microsoft.com/en-us/azure/cosmos-db/how-to-develop-emulator?tabs=docker-linux%2Ccsharp&pivots=api-nosql
+  # https://localhost:8081/_explorer/index.html
   docker run --name cosmos --publish 8081:8081 --detach \
     --env "COSMOS_ACCOUNT_NAME=cosmos" \
     --env "COSMOS_ACCOUNT_KEY=cosmos_key" \
@@ -105,7 +106,7 @@ clear
 # remove_all_container
 # remove_all_image
 
-postgres_install
+# postgres_install
 # mysql_install
 # mailhog_install
 # nginx_install

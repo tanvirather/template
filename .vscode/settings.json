@@ -26,7 +26,7 @@
     "Auth": true,
     "Base.Tests": true,
     "Base": true,
-    "devops": true,
+    "devops": false,
     "HubClient": true,
     "Identity": true,
     "License": true,
