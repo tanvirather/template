@@ -88,6 +88,15 @@ run_test() {
   # /opt/microsoft/msedge/msedge $project/TestResults/CoverageReport/index.html &
 }
 
+build_docker_image() {
+  # push container https://hub.docker.com/u/tzather
+  docker build --tag tzather/weather.api --file Weather/Weather.Api/Dockerfile .
+  docker push tzather/weather.api 
+
+  docker build --tag tzather/weather.job --file Weather/Weather.Job/Dockerfile .
+  docker push tzather/weather.job
+}
+
 ################################################## execute ##################################################
 clear
 # rebuild_postgres_server
@@ -104,3 +113,5 @@ clear
 # run_test "Base.Tests"
 # run_test "Auth.Tests"
 # run_test "Product.Tests"
+
+build_docker_image
