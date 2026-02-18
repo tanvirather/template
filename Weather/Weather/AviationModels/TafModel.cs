@@ -1,10 +1,5 @@
-
 namespace Zuhid.Weather.AviationModels;
 
-// public class TafModel {
-//   public string IcaoId { get; set; }
-
-// }
 
 public sealed class TafModel {
   public string IcaoId { get; set; } = string.Empty;
@@ -13,16 +8,16 @@ public sealed class TafModel {
   public DateTime? IssueTime { get; set; }
   public long? ValidTimeFrom { get; set; }
   public long? ValidTimeTo { get; set; }
-  // public string? RawTAF { get; set; }
-  // public int? MostRecent { get; set; }
-  // public string? Remarks { get; set; }
-  // public double? Lat { get; set; }
-  // public double? Lon { get; set; }
-  // public double? Elev { get; set; }
-  // public int? Prior { get; set; }
+  public string? RawTAF { get; set; }
+  public int? MostRecent { get; set; }
+  public string? Remarks { get; set; }
+  public double? Lat { get; set; }
+  public double? Lon { get; set; }
+  public double? Elev { get; set; }
+  public int? Prior { get; set; }
   public string? Name { get; set; }
 
-  // public List<TafForecast> Fcsts { get; set; } = [];
+  public List<TafForecast> Fcsts { get; set; } = [];
 }
 
 public sealed class TafForecast {

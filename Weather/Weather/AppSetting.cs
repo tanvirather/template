@@ -1,9 +1,12 @@
-namespace Zuhid.Weather.Api;
+using Microsoft.Extensions.Configuration;
+
+namespace Zuhid.Weather;
 
 public class AppSetting(IConfiguration configuration) {
-  public string Name { get; set; } = "Weather";
-  public string Version { get; set; } = "1.0";
-  public string CorsOrigin { get; set; } = "CorsOrigin";
+  public string Name { get; set; } = configuration.GetValue<string>("AppSetting:Name") ?? "Zuhid.Weather";
+  public string Version { get; set; } = configuration.GetValue<string>("AppSetting:Version") ?? "1.0";
+  public string[] CorsOrigin { get; set; } = configuration.GetSection("AppSetting:CorsOrigin").Get<string[]>() ?? [];
+  public string AviationUrl { get; set; } = configuration.GetValue<string>("AppSetting:AviationUrl") ?? string.Empty;
   public string Weather { get; set; } = GetConnectionString(configuration, "Weather");
   public string Log { get; set; } = GetConnectionString(configuration, "Log");
   // https://localhost:8081/_explorer/index.html

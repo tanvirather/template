@@ -26,7 +26,7 @@ rebuild_postgres_server(){
 
 solution_initilize(){
   dotnet tool restore
-  dotnet user-secrets set "postgres_credential" "User Id=$dbuser_user;Password=$dbuser_password;" --project Identity # set secrets
+  dotnet user-secrets set "postgres_credential" "User Id=$dbuser_user;Password=$dbuser_password" --project Identity # set secrets
   dotnet user-secrets set "cosmos_credential" "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==" --project Identity # set secrets
   npm -C web.vue install
 }
@@ -88,19 +88,17 @@ run_test() {
   # /opt/microsoft/msedge/msedge $project/TestResults/CoverageReport/index.html &
 }
 
-build_docker_image() {
-  # push container https://hub.docker.com/u/tzather
-  docker build --tag tzather/weather.api --file Weather/Weather.Api/Dockerfile .
-  docker push tzather/weather.api 
-
-  docker build --tag tzather/weather.job --file Weather/Weather.Job/Dockerfile .
-  docker push tzather/weather.job
+publish_docker() {
+  file=$1
+  tag=$2
+  docker build --tag tzather/$tag --file $file .
+  docker push tzather/$tag # push container https://hub.docker.com/u/tzather
 }
 
 ################################################## execute ##################################################
 clear
 # rebuild_postgres_server
-# solution_initilize
+solution_initilize
 # update_dotnet_packages
 
 # recreate_database "Identity"
@@ -114,4 +112,9 @@ clear
 # run_test "Auth.Tests"
 # run_test "Product.Tests"
 
-build_docker_image
+# publish_docker Identity/Dockerfile identity
+# publish_docker Product/Dockerfile product
+# publish_docker Weather/Weather.Api/Dockerfile weather.api
+# publish_docker Weather/Weather.Job/Dockerfile weather.job
+
+
