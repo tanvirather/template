@@ -27,3 +27,11 @@ public class AppSetting(IConfiguration configuration) {
       .Replace("[cosmos_credential]", configuration.GetValue<string>("cosmos_credential"), StringComparison.Ordinal);
   }
 }
+
+
+public class CosmosOptions {
+  public string Endpoint { get; init; } = "https://localhost:8081"; // default!;
+  public string Key { get; init; } = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=="; // default!;
+  public string DatabaseId { get; init; } = "Weather";
+}
+

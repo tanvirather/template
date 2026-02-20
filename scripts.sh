@@ -98,7 +98,7 @@ publish_docker() {
 ################################################## execute ##################################################
 clear
 # rebuild_postgres_server
-solution_initilize
+# solution_initilize
 # update_dotnet_packages
 
 # recreate_database "Identity"
@@ -114,7 +114,7 @@ solution_initilize
 
 # publish_docker Identity/Dockerfile identity
 # publish_docker Product/Dockerfile product
-# publish_docker Weather/Weather.Api/Dockerfile weather.api
-# publish_docker Weather/Weather.Job/Dockerfile weather.job
+# publish_docker Weather.Api/Dockerfile weather.api
+# publish_docker Weather.Job/Dockerfile weather.job
 
 

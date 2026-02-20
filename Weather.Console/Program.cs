@@ -1,27 +1,29 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Zuhid.Weather.Etls;
-// using Zuhid.Weather.Etls;
 
-namespace Zuhid.Weather.Job;
+namespace Zuhid.Weather.Console;
 
 /// <summary>
 /// export DOTNET_ENVIRONMENT=Development
 /// dotnet run --TafToPostgresEtl
+/// dotnet run --TafToCosmosEtl
 /// </summary>
 public class Program {
   static async Task Main(string[] args) {
+
     var config = GetConfigurationRoot();
     var appSetting = new AppSetting(config);
-    var weatherContext = new WeatherContext(new DbContextOptionsBuilder<WeatherContext>().UseNpgsql(appSetting.Weather).Options);
 
     if (args.Contains("--TafToPostgresEtl")) {
-      Console.WriteLine("Running TafToPostgresEtl...");
+      System.Console.WriteLine("Running TafToPostgresEtl...");
+      var weatherContext = new WeatherContext(new DbContextOptionsBuilder<WeatherContext>().UseNpgsql(appSetting.Weather).Options);
       await new TafToPostgresEtl(appSetting, weatherContext).Run();
     }
-    if (args.Contains("--metar")) {
-      Console.WriteLine("Running MetarEtl...");
-      // await new MetarEtl().Run();
+    if (args.Contains("--TafToCosmosEtl")) {
+      System.Console.WriteLine("Running TafToCosmosEtl...");
+      var cosmosContext = new CosmosContext(new CosmosOptions());
+      await new TafToCosmosEtl(appSetting, cosmosContext).Run();
     }
   }
 

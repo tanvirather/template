@@ -1,4 +1,3 @@
-
 using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Json;
 using Zuhid.Weather.AviationModels;
@@ -29,6 +28,7 @@ public class TafToPostgresEtl(AppSetting appSetting, WeatherContext weatherConte
     }
     return modelList;
   }
+
   private List<TafEntity> Transform(List<TafModel> models) {
     return [.. models.Select(m => new TafEntity {
       IcaoId = m.IcaoId,
@@ -70,6 +70,7 @@ public class TafToPostgresEtl(AppSetting appSetting, WeatherContext weatherConte
       })]
     })];
   }
+
   private async Task Load(List<TafEntity> entityList) {
     // delete all existing records
     await weatherContext.TafEntity.ExecuteDeleteAsync();

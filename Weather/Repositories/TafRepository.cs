@@ -1,5 +1,5 @@
-using Zuhid.Weather.Entities;
 using Microsoft.EntityFrameworkCore;
+using Zuhid.Weather.Entities;
 
 namespace Zuhid.Weather.Repositories;
 

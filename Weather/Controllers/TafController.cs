@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Zuhid.Weather.Repositories;
 using Zuhid.Weather.Entities;
+using Zuhid.Weather.Repositories;
 
 namespace Zuhid.Weather.Controllers;
 
