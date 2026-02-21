@@ -2,7 +2,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Zuhid.Weather.Etls;
 
-public class TafToCosmosEtl(AppSetting appSetting, CosmosContext cosmosContext) {
+public class CosmosEtl(AppSetting appSetting, CosmosContext cosmosContext) {
   public async Task Run() {
     var airports = new List<string> { "kden", "ksea", "kord" };
     var modelList = await Extract(airports);

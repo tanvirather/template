@@ -9,7 +9,6 @@ public interface ICosmosContext {
 
 public class CosmosContext : ICosmosContext {
 
-  private Database _database = default!;
   public Container Tafs { get; private set; } = default!;
 
   public CosmosContext(CosmosOptions cosmosOptions) {
@@ -18,24 +17,26 @@ public class CosmosContext : ICosmosContext {
 
   private async Task Initialize(CosmosOptions cosmosOptions) {
     var options = new CosmosClientOptions() {
+#if DEBUG
       HttpClientFactory = () => new HttpClient(new HttpClientHandler() {
         ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
       }),
+#endif
       ConnectionMode = ConnectionMode.Gateway,
     };
     var cosmosClient = new CosmosClient(cosmosOptions.Endpoint, cosmosOptions.Key, options);
 
     // Create DB if not exists
     var dbResponse = await cosmosClient.CreateDatabaseIfNotExistsAsync(cosmosOptions.DatabaseId).ConfigureAwait(false);
-    _database = dbResponse.Database;
+    var database = dbResponse.Database;
 
     // Users container
     var usersProps = new ContainerProperties(id: "Tafs", partitionKeyPath: "/icaoId") {
-      IndexingPolicy = new IndexingPolicy { Automatic = true, IndexingMode = IndexingMode.Consistent }, // indexing policy tuning
+      IndexingPolicy = new IndexingPolicy { Automatic = true, IndexingMode = IndexingMode.Lazy }, // indexing policy tuning
       // UniqueKeyPolicy = new UniqueKeyPolicy { UniqueKeys = { new UniqueKey { Paths = { "/tenantId", "/email" } } } }, //unique keys
       DefaultTimeToLive = 60 * 60 * 24 * 1 // 1 day1 TTL for automatic deletion of items, set to -1 for infinite retention
     };
-    Tafs = (await _database.CreateContainerIfNotExistsAsync(usersProps, ThroughputProperties.CreateManualThroughput(1000)).ConfigureAwait(false)).Container;
+    Tafs = (await database.CreateContainerIfNotExistsAsync(usersProps, ThroughputProperties.CreateManualThroughput(1000)).ConfigureAwait(false)).Container;
   }
 }
 

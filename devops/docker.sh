@@ -7,6 +7,7 @@ mailhog_image="mailhog/mailhog:latest"
 ollama_image="ollama/ollama"
 text_to_speech="ghcr.io/coqui-ai/tts-cpu"
 cosmos_image="mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest"
+redis_image="redis"
 
 ################################################## methods ##################################################
 
@@ -95,6 +96,11 @@ text_to_speech_install(){
   # python3 TTS/server/server.py --model_name tts_models/en/vctk/vits # To start a server
 }
 
+redis_install(){
+  docker run --detach --publish 6379:6379 --name redis $redis_image 
+}
+
+
 display_all(){
   docker image ls --format "table {{.Repository}}"
   docker container ls --all #--format "table {{.Names}}   {{.Image}}"
@@ -113,6 +119,7 @@ clear
 # ollama_install
 # text_to_speech_install
 # cosmos_install
+# redis_install
 
-display_all
+# display_all
 

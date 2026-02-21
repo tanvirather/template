@@ -9,7 +9,6 @@ public class AppSetting(IConfiguration configuration) {
   public string AviationUrl { get; set; } = configuration.GetValue<string>("AppSetting:AviationUrl") ?? string.Empty;
   public string Weather { get; set; } = GetConnectionString(configuration, "Weather");
   public string Log { get; set; } = GetConnectionString(configuration, "Log");
-  // https://localhost:8081/_explorer/index.html
   public string Weather_Cosmos { get; set; } = GetCosmos(configuration, "Weather_Cosmos");
 
   /// <summary>

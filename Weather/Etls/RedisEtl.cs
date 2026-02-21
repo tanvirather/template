@@ -1,15 +1,12 @@
-using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Json;
 using Zuhid.Weather.AviationModels;
 using Zuhid.Weather.Entities;
+using StackExchange.Redis;
 
 namespace Zuhid.Weather.Etls;
 
-public class TafToPostgresEtl(AppSetting appSetting, WeatherContext weatherContext) {
+public class RedisEtl(AppSetting appSetting) {
   public async Task Run() {
-    // https://aviationweather.gov/data/api/
-    // https://aviationweather.gov/api/data/taf?ids=kden&format=json
-    // https://aviationweather.gov/api/data/metar?ids=kden&format=json
     var airports = new List<string> { "kden", "ksea", "kord" };
     var modelList = await Extract(airports);
     var entityList = Transform(modelList);
@@ -72,10 +69,9 @@ public class TafToPostgresEtl(AppSetting appSetting, WeatherContext weatherConte
   }
 
   private async Task Load(List<TafEntity> entityList) {
-    // delete all existing records
-    await weatherContext.TafEntity.ExecuteDeleteAsync();
-    // insert new records    
-    await weatherContext.TafEntity.AddRangeAsync(entityList);
-    await weatherContext.SaveChangesAsync();
+    var connection = ConnectionMultiplexer.Connect("localhost:6379");
+    var database = connection.GetDatabase();
+    await database.StringSetAsync("taf_data", System.Text.Json.JsonSerializer.Serialize(entityList));
+    // await database.StringSetAsync("taf_data", System.Text.Json.JsonSerializer.Serialize(entityList));
   }
 }

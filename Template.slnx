@@ -7,7 +7,7 @@
   <Project Path="Product.Tests/Product.Tests.csproj" />
   <Project Path="Product/Product.csproj" />
   <Project Path="Weather.Api/Weather.Api.csproj" />
-  <Project Path="Weather.Console/Weather.Console.csproj" />
+  <Project Path="Weather.Job/Weather.Job.csproj" />
   <Project Path="Weather/Weather.csproj" />
   <Project Path="Web.BlazorWasm/Web.BlazorWasm.csproj" />
 </Solution>

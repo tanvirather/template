@@ -6,7 +6,7 @@ namespace Zuhid.Weather.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class TafController(TafRepository tafRepository) : ControllerBase {
+public class PostgresController(TafRepository tafRepository) : ControllerBase {
 
   [HttpGet]
   public async Task<List<TafEntity>> Get() => await tafRepository.Get();

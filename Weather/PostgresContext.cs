@@ -3,9 +3,9 @@ using Zuhid.Weather.Entities;
 
 namespace Zuhid.Weather;
 
-public class WeatherContext : DbContext {
+public class PostgresContext : DbContext {
 
-  public WeatherContext(DbContextOptions<WeatherContext> options) : base(options) {
+  public PostgresContext(DbContextOptions<PostgresContext> options) : base(options) {
     Database.EnsureCreated();
   }
 

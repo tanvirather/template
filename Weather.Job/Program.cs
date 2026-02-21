@@ -2,12 +2,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Zuhid.Weather.Etls;
 
-namespace Zuhid.Weather.Console;
+namespace Zuhid.Weather.Job;
 
 /// <summary>
 /// export DOTNET_ENVIRONMENT=Development
-/// dotnet run --TafToPostgresEtl
-/// dotnet run --TafToCosmosEtl
+/// dotnet run --PostgresEtl
+/// dotnet run --CosmosEtl
+/// dotnet run --RedisEtl
 /// </summary>
 public class Program {
   static async Task Main(string[] args) {
@@ -15,15 +16,17 @@ public class Program {
     var config = GetConfigurationRoot();
     var appSetting = new AppSetting(config);
 
-    if (args.Contains("--TafToPostgresEtl")) {
-      System.Console.WriteLine("Running TafToPostgresEtl...");
-      var weatherContext = new WeatherContext(new DbContextOptionsBuilder<WeatherContext>().UseNpgsql(appSetting.Weather).Options);
-      await new TafToPostgresEtl(appSetting, weatherContext).Run();
+    if (args.Contains("--PostgresEtl")) {
+      var postgresContext = new PostgresContext(new DbContextOptionsBuilder<PostgresContext>().UseNpgsql(appSetting.Weather).Options);
+      await new PostgresEtl(appSetting, postgresContext).Run();
     }
-    if (args.Contains("--TafToCosmosEtl")) {
-      System.Console.WriteLine("Running TafToCosmosEtl...");
+    if (args.Contains("--CosmosEtl")) {
       var cosmosContext = new CosmosContext(new CosmosOptions());
-      await new TafToCosmosEtl(appSetting, cosmosContext).Run();
+      await new CosmosEtl(appSetting, cosmosContext).Run();
+    }
+    if (args.Contains("--RedisEtl")) {
+      // var redisContext = new RedisContext(new RedisOptions());
+      await new RedisEtl(appSetting).Run();
     }
   }
 
