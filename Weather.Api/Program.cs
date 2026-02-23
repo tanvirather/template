@@ -17,6 +17,8 @@ public class Program {
   .ForEach(item => builder.Services.AddScoped(item));
     var appSetting = new AppSetting(builder.Configuration);
     builder.AddDatabase<PostgresContext, PostgresContext>(appSetting.Weather);
+    builder.Services.AddSingleton(new HttpClient());
+    builder.Services.AddSingleton(appSetting);
     builder.Services.AddSingleton(sp => new CosmosContext(new CosmosOptions()));
     var app = builder.BuildServices();
     app.Run();
