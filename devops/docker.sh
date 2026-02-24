@@ -79,13 +79,16 @@ ollama_install(){
 cosmos_install(){
   # https://learn.microsoft.com/en-us/azure/cosmos-db/how-to-develop-emulator?tabs=docker-linux%2Ccsharp&pivots=api-nosql
   # https://localhost:8081/_explorer/index.html
-  docker run --name cosmos --publish 8081:8081 --detach \
+  docker container rm cosmos --force
+  docker pull $cosmos_image
+  docker run --name cosmos --publish 8081:8081 --publish 10250-10255:10250-10255 --detach \
     --env "COSMOS_ACCOUNT_NAME=cosmos" \
     --env "COSMOS_ACCOUNT_KEY=cosmos_key" \
     --env "COSMOS_DATABASE_NAME=cosmos_db" \
     --env "COSMOS_COLLECTION_NAME=cosmos_collection" \
     --env "COSMOS_PARTITION_KEY=partition_key" \
     $cosmos_image
+  # docker logs -f cosmos
 }
 
 text_to_speech_install(){
@@ -99,7 +102,6 @@ text_to_speech_install(){
 redis_install(){
   docker run --detach --publish 6379:6379 --name redis $redis_image 
 }
-
 
 display_all(){
   docker image ls --format "table {{.Repository}}"
@@ -118,7 +120,7 @@ clear
 # nginx_install
 # ollama_install
 # text_to_speech_install
-# cosmos_install
+cosmos_install
 # redis_install
 
 # display_all

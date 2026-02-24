@@ -31,7 +31,7 @@
     "Identity": true,
     "License": true,
     "Product.Tests": true,
-    "Product": true,
+    "Product": false,
     "readme.md": true,
     "Template.slnx": false,
     "Weather": false,

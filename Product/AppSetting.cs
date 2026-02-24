@@ -1,11 +1,17 @@
 namespace Zuhid.Product;
 
-public class AppSetting(IConfiguration configuration) {
-  public string Name { get; set; } = "Product";
-  public string Version { get; set; } = "1.0";
-  public string CorsOrigin { get; set; } = "CorsOrigin";
-  public string Product { get; set; } = GetConnectionString(configuration, "Product");
-  public string Log { get; set; } = GetConnectionString(configuration, "Log");
+public class AppSetting {
+  public AppSetting(IConfiguration configuration) {
+    configuration.GetSection("AppSettings").Bind(this);
+    Product = GetConnectionString(configuration, "Product");
+    Log = GetConnectionString(configuration, "Log");
+  }
+  public string Name { get; set; } = default!;
+  public string Version { get; set; } = default!;
+  public string CorsOrigin { get; set; } = default!;
+  public string AviationUrl { get; set; } = default!;
+  public string Product { get; set; } = default!;
+  public string Log { get; set; } = default!;
 
   /// <summary>
   /// Get Connection string and replace "[postgres_credential]" with value from secrets

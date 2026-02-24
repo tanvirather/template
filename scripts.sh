@@ -71,12 +71,13 @@ recreate_database(){
 
 update_database(){
   project=$1
+  startup_project=$2
   rm -rf $project/Migrations # remove migration folder
   # dotnet build
-  dotnet ef migrations add initial --project $project --startup-project $project # create initial migration
-  dotnet ef migrations script --project $project --startup-project $project --output $project/Migrations/Script.sql # create script
-  dotnet ef database drop --project $project --startup-project $project --force # drop database
-  dotnet ef database update --project $project --startup-project $project # update database
+  dotnet ef migrations add initial --project $project --startup-project $startup_project # create initial migration
+  dotnet ef migrations script --project $project --startup-project $startup_project --output $project/Migrations/Script.sql # create script
+  dotnet ef database drop --project $project --startup-project $startup_project --force # drop database
+  dotnet ef database update --project $project --startup-project $startup_project # update database
 }
 
 run_test() {
@@ -106,7 +107,7 @@ clear
 # recreate_database "Auth"
 # update_database "Auth"
 # recreate_database "Product"
-# update_database "Product"
+update_database "Product" "Product.Api"
 
 # run_test "Base.Tests"
 # run_test "Auth.Tests"
