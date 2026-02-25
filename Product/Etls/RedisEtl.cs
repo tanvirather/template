@@ -1,15 +1,11 @@
-using Microsoft.EntityFrameworkCore;
-using System.Net.Http.Json;
-using Zuhid.Weather.AviationModels;
-using Zuhid.Weather.Entities;
+using StackExchange.Redis;
+using Zuhid.Product.AviationModels;
+using Zuhid.Product.Entities;
 
-namespace Zuhid.Weather.Etls;
+namespace Zuhid.Product.Etls;
 
-public class PostgresEtl(AppSetting appSetting, PostgresContext postgresContext) {
+public class RedisEtl(AppSetting appSetting, HttpClient client, ConnectionMultiplexer connectionMultiplexer) {
   public async Task Run() {
-    // https://aviationweather.gov/data/api/
-    // https://aviationweather.gov/api/data/taf?ids=kden&format=json
-    // https://aviationweather.gov/api/data/metar?ids=kden&format=json
     var airports = new List<string> { "kden", "ksea", "kord" };
     var modelList = await Extract(airports);
     var entityList = Transform(modelList);
@@ -17,7 +13,6 @@ public class PostgresEtl(AppSetting appSetting, PostgresContext postgresContext)
   }
 
   private async Task<List<TafModel>> Extract(List<string> airports) {
-    var client = new HttpClient();
     var modelList = new List<TafModel>();
     foreach (var airport in airports) {
       var response = await client.GetAsync($"{appSetting.AviationUrl}?ids={airport}&format=json");
@@ -37,7 +32,7 @@ public class PostgresEtl(AppSetting appSetting, PostgresContext postgresContext)
       IssueTime = m.IssueTime,
       ValidTimeFrom = m.ValidTimeFrom,
       ValidTimeTo = m.ValidTimeTo,
-      RawTAF = m.RawTAF,
+      // RawTAF = m.RawTAF,
       MostRecent = m.MostRecent,
       Remarks = m.Remarks,
       Lat = m.Lat,
@@ -51,31 +46,31 @@ public class PostgresEtl(AppSetting appSetting, PostgresContext postgresContext)
         TimeBec = f.TimeBec,
         FcstChange = f.FcstChange,
         Probability = f.Probability,
-        Wdir = f.Wdir,
+        // Wdir = f.Wdir,
         Wspd = f.Wspd,
         Wgst = f.Wgst,
-        WshearHgt = f.WshearHgt,
-        WshearDir = f.WshearDir,
-        WshearSpd = f.WshearSpd,
+        // WshearHgt = f.WshearHgt,
+        // WshearDir = f.WshearDir,
+        // WshearSpd = f.WshearSpd,
         Visib = f.Visib?.ToString(),
-        Altim = f.Altim,
-        VertVis = f.VertVis,
-        WxString = f.WxString,
-        NotDecoded = f.NotDecoded,
+        // Altim = f.Altim,
+        // VertVis = f.VertVis,
+        // WxString = f.WxString,
+        // NotDecoded = f.NotDecoded,
         Clouds = [.. f.Clouds.Select(c => new TafCloudLayerEntity {
           Cover = c.Cover,
           Base = c.Base,
-          Type = c.Type
+          // Type = c.Type
         })]
       })]
     })];
   }
 
   private async Task Load(List<TafEntity> entityList) {
-    // delete all existing records
-    await postgresContext.TafEntity.ExecuteDeleteAsync();
-    // insert new records    
-    await postgresContext.TafEntity.AddRangeAsync(entityList);
-    await postgresContext.SaveChangesAsync();
+    var database = connectionMultiplexer.GetDatabase();
+    foreach (var entity in entityList) {
+      var key = $"taf:{entity.IcaoId}";
+      await database.StringSetAsync(key, System.Text.Json.JsonSerializer.Serialize(entity));
+    }
   }
 }

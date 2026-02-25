@@ -34,7 +34,6 @@
     "Product": false,
     "readme.md": true,
     "Template.slnx": false,
-    "Weather": false,
     "Web.BlazorWasm": true,
     "web.server": true,
   },

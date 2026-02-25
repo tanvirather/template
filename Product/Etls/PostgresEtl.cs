@@ -1,12 +1,14 @@
-using System.Net.Http.Json;
-using Zuhid.Weather.AviationModels;
-using Zuhid.Weather.Entities;
-using StackExchange.Redis;
+using Microsoft.EntityFrameworkCore;
+using Zuhid.Product.AviationModels;
+using Zuhid.Product.Entities;
 
-namespace Zuhid.Weather.Etls;
+namespace Zuhid.Product.Etls;
 
-public class RedisEtl(AppSetting appSetting) {
+public class PostgresEtl(AppSetting appSetting, ProductContext productContext) {
   public async Task Run() {
+    // https://aviationweather.gov/data/api/
+    // https://aviationweather.gov/api/data/taf?ids=kden&format=json
+    // https://aviationweather.gov/api/data/metar?ids=kden&format=json
     var airports = new List<string> { "kden", "ksea", "kord" };
     var modelList = await Extract(airports);
     var entityList = Transform(modelList);
@@ -34,7 +36,7 @@ public class RedisEtl(AppSetting appSetting) {
       IssueTime = m.IssueTime,
       ValidTimeFrom = m.ValidTimeFrom,
       ValidTimeTo = m.ValidTimeTo,
-      RawTAF = m.RawTAF,
+      // RawTAF = m.RawTAF,
       MostRecent = m.MostRecent,
       Remarks = m.Remarks,
       Lat = m.Lat,
@@ -48,30 +50,31 @@ public class RedisEtl(AppSetting appSetting) {
         TimeBec = f.TimeBec,
         FcstChange = f.FcstChange,
         Probability = f.Probability,
-        Wdir = f.Wdir,
+        // Wdir = f.Wdir,
         Wspd = f.Wspd,
         Wgst = f.Wgst,
-        WshearHgt = f.WshearHgt,
-        WshearDir = f.WshearDir,
-        WshearSpd = f.WshearSpd,
+        // WshearHgt = f.WshearHgt,
+        // WshearDir = f.WshearDir,
+        // WshearSpd = f.WshearSpd,
         Visib = f.Visib?.ToString(),
-        Altim = f.Altim,
-        VertVis = f.VertVis,
-        WxString = f.WxString,
-        NotDecoded = f.NotDecoded,
+        // Altim = f.Altim,
+        // VertVis = f.VertVis,
+        // WxString = f.WxString,
+        // NotDecoded = f.NotDecoded,
         Clouds = [.. f.Clouds.Select(c => new TafCloudLayerEntity {
           Cover = c.Cover,
           Base = c.Base,
-          Type = c.Type
+          // Type = c.Type
         })]
       })]
     })];
   }
 
   private async Task Load(List<TafEntity> entityList) {
-    var connection = ConnectionMultiplexer.Connect("localhost:6379");
-    var database = connection.GetDatabase();
-    await database.StringSetAsync("taf_data", System.Text.Json.JsonSerializer.Serialize(entityList));
-    // await database.StringSetAsync("taf_data", System.Text.Json.JsonSerializer.Serialize(entityList));
+    // delete all existing records
+    await productContext.TafEntity.ExecuteDeleteAsync();
+    // insert new records    
+    await productContext.TafEntity.AddRangeAsync(entityList);
+    await productContext.SaveChangesAsync();
   }
 }

@@ -1,14 +1,14 @@
-namespace Zuhid.Weather.AviationModels;
+namespace Zuhid.Product.AviationModels;
 
 
-public sealed class TafModel {
+public class TafModel {
   public string IcaoId { get; set; } = string.Empty;
   public DateTime? DbPopTime { get; set; }
   public DateTime? BulletinTime { get; set; }
   public DateTime? IssueTime { get; set; }
   public long? ValidTimeFrom { get; set; }
   public long? ValidTimeTo { get; set; }
-  public string? RawTAF { get; set; }
+  // public string? RawTAF { get; set; }
   public int? MostRecent { get; set; }
   public string? Remarks { get; set; }
   public double? Lat { get; set; }
@@ -27,24 +27,25 @@ public sealed class TafForecast {
   public long? TimeBec { get; set; }
   public string? FcstChange { get; set; }
   public int? Probability { get; set; }
-  public int? Wdir { get; set; }
+  public object? Wdir { get; set; }
   public int? Wspd { get; set; }
   public int? Wgst { get; set; }
-  public int? WshearHgt { get; set; }
-  public int? WshearDir { get; set; }
-  public int? WshearSpd { get; set; }
+  // public int? WshearHgt { get; set; }
+  // public int? WshearDir { get; set; }
+  // public int? WshearSpd { get; set; }
   public object? Visib { get; set; }
-  public double? Altim { get; set; }
-  public int? VertVis { get; set; }
-  public string? WxString { get; set; }
-  public string? NotDecoded { get; set; }
+  // public double? Altim { get; set; }
+  // public int? VertVis { get; set; }
+  // public string? WxString { get; set; }
+  // public string? NotDecoded { get; set; }
   public List<TafCloudLayer> Clouds { get; set; } = [];
-  public List<string> IcgTurb { get; set; } = [];
-  public List<string> Temp { get; set; } = [];
+  // public List<string> IcgTurb { get; set; } = [];
+  // public List<string> Temp { get; set; } = [];
 }
 
 public sealed class TafCloudLayer {
   public string Cover { get; set; } = string.Empty;
   public int? Base { get; set; }
-  public string? Type { get; set; }
+  // public string? Type { get; set; }
 }
+

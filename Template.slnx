@@ -4,10 +4,9 @@
   <Project Path="Base.Tests/Base.Tests.csproj" />
   <Project Path="Base/Base.csproj" />
   <Project Path="Identity/Identity.csproj" />
+  <Project Path="Product.Api/Product.Api.csproj" />
+  <Project Path="Product.Job/Product.Job.csproj" />
   <Project Path="Product.Tests/Product.Tests.csproj" />
   <Project Path="Product/Product.csproj" />
-  <Project Path="Weather.Api/Weather.Api.csproj" />
-  <Project Path="Weather.Job/Weather.Job.csproj" />
-  <Project Path="Weather/Weather.csproj" />
   <Project Path="Web.BlazorWasm/Web.BlazorWasm.csproj" />
 </Solution>

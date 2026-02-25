@@ -27,7 +27,7 @@ rebuild_postgres_server(){
 solution_initilize(){
   dotnet tool restore
   dotnet user-secrets set "postgres_credential" "User Id=$dbuser_user;Password=$dbuser_password" --project Identity # set secrets
-  dotnet user-secrets set "cosmos_credential" "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==" --project Identity # set secrets
+  dotnet user-secrets set "AppSettings:Cosmos:Key" "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==" --project Identity # set secrets
   npm -C web.vue install
 }
 
@@ -107,15 +107,14 @@ clear
 # recreate_database "Auth"
 # update_database "Auth"
 # recreate_database "Product"
-update_database "Product" "Product.Api"
+# update_database "Product" "Product.Api"
 
 # run_test "Base.Tests"
 # run_test "Auth.Tests"
 # run_test "Product.Tests"
 
 # publish_docker Identity/Dockerfile identity
-# publish_docker Product/Dockerfile product
-# publish_docker Weather.Api/Dockerfile weather.api
-# publish_docker Weather.Job/Dockerfile weather.job
+publish_docker Product.Api/Dockerfile product.api
+publish_docker Product.Job/Dockerfile product.job
 
 

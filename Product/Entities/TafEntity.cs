@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Zuhid.Weather.Entities;
+namespace Zuhid.Product.Entities;
 
 public class TafEntity {
   [Key]

@@ -1,6 +1,6 @@
 using Newtonsoft.Json.Linq;
 
-namespace Zuhid.Weather.Etls;
+namespace Zuhid.Product.Etls;
 
 public class CosmosEtl(AppSetting appSetting, CosmosContext cosmosContext) {
   public async Task Run() {
@@ -35,7 +35,6 @@ public class CosmosEtl(AppSetting appSetting, CosmosContext cosmosContext) {
 
   private async Task Load(List<JObject> modelList) {
     foreach (var model in modelList) {
-      Console.WriteLine($"Upserting item with id: {model["id"]}");
       await cosmosContext.Tafs.UpsertItemAsync(item: model);
     }
   }

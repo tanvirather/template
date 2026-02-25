@@ -25,17 +25,17 @@
       }
     },
     {
-      "name": "Weather.Jobs",
+      "name": "Product.Job",
       "type": "dotnet",
       "request": "launch",
-      "projectPath": "${workspaceFolder}/Weather/Weather.Jobs/Weather.Jobs.csproj",
+      "projectPath": "${workspaceFolder}/Product.Job/Product.Job.csproj",
     },
     {
-      "name": "Weather.Api",
+      "name": "Product.Api",
       "type": "coreclr",
       "request": "launch",
-      "program": "${workspaceFolder}/Weather/Weather.Api/bin/Debug/net10.0/Zuhid.Weather.Api.dll",
-      "cwd": "${workspaceFolder}/Weather/Weather.Api",
+      "program": "${workspaceFolder}/Product.Api/bin/Debug/net10.0/Zuhid.Product.Api.dll",
+      "cwd": "${workspaceFolder}/Product.Api",
       "stopAtEntry": false,
       "launchBrowser": {
         "enabled": true,
