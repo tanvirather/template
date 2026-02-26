@@ -1,0 +1,17 @@
+<label class="ui-text" [class.disabled]="disabled()">
+  <span *ngIf="label()" class="label">
+    {{ label() }} <span *ngIf="required()" class="required">*</span>
+  </span>
+
+  <div class="control" [class.outline]="variant() === 'outline'">
+    <input [attr.placeholder]="placeholder() ?? ''" [attr.maxlength]="maxlength() ?? null" [disabled]="disabled()"
+      [readonly]="readonly()" [value]="value()" (input)="onInput($any($event.target).value)"
+      [class.sm]="size() === 'sm'" [class.md]="size() === 'md'" [class.lg]="size() === 'lg'"
+      [class.invalid]="showError()" type="text" />
+  </div>
+
+  <div class="meta">
+    <small class="hint" *ngIf="!showError() && hint()">{{ hint() }}</small>
+    <small class="error" *ngIf="showError()">{{ errorText() }}</small>
+  </div>
+</label>

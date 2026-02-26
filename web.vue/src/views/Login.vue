@@ -1,9 +1,10 @@
 <!-------------------------------------------------- script -------------------------------------------------->
 <script setup>
-import { LoginStore } from '@/store';
 import { inject, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const apiClient = inject('apiClient');
+const router = useRouter()
 
 const model = ref({
   username: 'admin@company.com',
@@ -14,8 +15,9 @@ const model = ref({
 /************************* computed *************************/
 /************************* functions *************************/
 async function login() {
-  await new LoginStore(apiClient).login(model.value);
+  // await new LoginStore(apiClient).login(model.value);
   // console.log("Login button clicked" + JSON.stringify(model.value));
+  router.push('/Product/PostgresType')
 }
 </script>
 

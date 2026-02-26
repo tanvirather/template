@@ -3,7 +3,6 @@
 import { useSignalR } from '@/plugins/signalr';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 
-
 /************************* Props *************************/
 const hub = useSignalR();
 const notifications = ref([]);

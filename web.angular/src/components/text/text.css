@@ -1,0 +1,80 @@
+.ui-text {
+  display: grid;
+  gap: 6px;
+  font: inherit;
+  color: inherit;
+}
+
+.label {
+  font-weight: 600;
+}
+
+.required {
+  color: #b91c1c;
+  margin-left: 2px;
+}
+
+.control {
+  position: relative;
+}
+
+.control input {
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 10px 12px;
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.control.outline input {
+  background: #fff;
+}
+
+.control input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, .15);
+}
+
+.control input.invalid {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, .12);
+}
+
+.ui-text.disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+.ui-text.disabled input {
+  cursor: not-allowed;
+}
+
+.meta {
+  min-height: 1rem;
+}
+
+.hint {
+  color: #64748b;
+}
+
+.error {
+  color: #b91c1c;
+}
+
+.sm {
+  padding: 6px 10px !important;
+  font-size: .9rem;
+}
+
+.md {
+  padding: 10px 12px !important;
+}
+
+.lg {
+  padding: 14px 14px !important;
+  font-size: 1.05rem;
+}

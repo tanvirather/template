@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.SignalR;
 namespace Zuhid.Product.Hubs;
 
 public class UserHub : Hub {
-  private static int _userCount = 0;
+  private static int s_userCount = 0;
 
   public async Task MyServerFunction() {
     Console.WriteLine($"MyServerFunction: called by client {Context.ConnectionId}");
-    _userCount++;
-    await Clients.All.SendAsync("myClientFunction", _userCount);
+    s_userCount++;
+    await Clients.All.SendAsync("myClientFunction", s_userCount);
   }
 
   public override async Task OnConnectedAsync() {
