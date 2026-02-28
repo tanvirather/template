@@ -1,11 +1,114 @@
 .card {
-  margin: 10px;
-  border: 1px solid grey;
-  border-radius: 5px 5px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  width: 100%;
+  max-width: 480px;
+  margin: 1rem auto;
+  font-family: "Segoe UI", Roboto, sans-serif;
+  transition: box-shadow 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
+  transform: translateY(-2px);
+}
+
+/* Header */
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f7f8fa;
+  border-bottom: 1px solid #e2e5e8;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.card-header a {
+  text-decoration: none;
+  color: #666;
+  margin-left: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.card-header a:hover {
+  background: #e0e3e7;
+  color: #000;
+}
+
+/* Button variations for quick recognition */
+.card-reset {
+  background-color: #ffe3e3;
+}
+
+.card-help {
+  background-color: #e3f2ff;
+}
+
+.card-history {
+  background-color: #fdf1c4;
+}
+
+.card-reset:hover {
+  background-color: #ffcdcd;
+}
+
+.card-help:hover {
+  background-color: #cfe9ff;
+}
+
+.card-history:hover {
+  background-color: #fbe79a;
+}
+
+/* Body */
+.card-body {
+  padding: 1rem;
+  color: #444;
+  font-size: 0.95rem;
+}
+
+.card-body ng-content {
+  display: block;
+}
+
+/* Footer */
+.card-footer {
+  border-top: 1px solid #e2e5e8;
+  background: #fafafa;
+  padding: 0.75rem 1rem;
+  text-align: right;
+}
+
+.card-footer nc-button {
+  --button-bg: #0078d7;
+  --button-color: #fff;
+}
+
+
+
+/* .card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  margin: 5px;
+  background-color: var(--bg-color);
+  box-shadow: 0px 0px 2px 1px var(--bg-color-shadow);
 
   .card-header {
     display: flex;
     flex-direction: row;
+    padding: 5px;
 
     >span {
       flex-grow: 1;
@@ -13,8 +116,26 @@
 
     >a {
       flex-grow: 0;
-      margin: 0px 3px;
+      margin: 0 3px;
       cursor: pointer;
     }
   }
-}
+
+  form {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .card-footer {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+  }
+} */

@@ -1,1 +1,56 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --Black: #000000;
+  --Cool-Grey-14: #191919;
+  --Cool-Grey-13: #2a2c2d;
+  --Cool-Grey-12: #44484c;
+  --Cool-Grey-11: #646a70;
+  --Cool-Grey-10: #868f96;
+  --Cool-Grey-9: #9ba4aa;
+  --Cool-Grey-8: #b1b9bf;
+  --Cool-Grey-7: #c7cdd2;
+  --Cool-Grey-6: #dde2e6;
+  --Cool-Grey-5: #e6eaed;
+  --Cool-Grey-4: #ebeef0;
+  --Cool-Grey-3: #eef1f3;
+  --Cool-Grey-2: #f2f4f5;
+  --Cool-Grey-1: #fbfcfc;
+  --White: #ffffff;
+}
+
+:root {
+  --primary-light: #0272b6;
+  --primary-hover-light: #00619a;
+  --Watermelon-light: #fb543f;
+  --Haute-light: #ff5a5a;
+  --Tangerine-light: #ff9271;
+  --Pumpkin-light: #ffa700;
+  --Lemon-light: #ffd871;
+  --Berry-light: #ff638d;
+  --Turq-light: #4ab1c1;
+  --Lagoon-light: #1bcfe1;
+  --Green-Tea-light: #1ee2c9;
+  --Minty-light: #65d0a7;
+  --Sea-Foam-light: #47c684;
+  --Bramble-light: #bc43d3;
+}
+
+:root {
+  --bg-color-main: var(--Cool-Grey-2);
+  --bg-color-shadow: var(--Cool-Grey-7);
+  --bg-color: var(--White);
+  --font-color: var(--Black);
+}
+
+/* 
+-- dark theme
+:root {
+  --main-bg-color: var(--Cool-Grey-12);
+  --sub-bg-color: var(--Black);
+  --sub-bg-color-invert: var(--White);
+  --font-color: var(--White);
+} */
+
+body {
+  background-color: var(--bg-color-main);
+  color: var(--font-color);
+}

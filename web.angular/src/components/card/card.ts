@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Button } from '../button/button';
 
 @Component({
   selector: 'nc-card',
-  imports: [],
+  imports: [Button],
   templateUrl: './card.html',
   styleUrl: './card.css',
 })
