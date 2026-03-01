@@ -10,14 +10,14 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'ui-text',
+  selector: 'nc-text',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './text.html',
   styleUrls: ['./text.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TextComponent {
+export class Text {
   /** Two-way bindable value: [(value)]="..." */
   value = model<string>('');
 
