@@ -1,1 +1,9 @@
-
+.login {
+  display: grid;
+  /* 2 columns */
+  grid-template-columns: repeat(2, 1fr);
+  /* 2 rows */
+  grid-template-rows: repeat(2, auto);
+  /* optional spacing */
+  gap: 0px;
+}

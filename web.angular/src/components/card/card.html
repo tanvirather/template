@@ -1,16 +1,14 @@
-<div id="{{ cardId() }}" class="card">
-  <div class="card-header">
+<form id="{{ cardId() }}" class="card">
+  <header>
     <span>{{ header }}</span>
     <a class="card-reset" (click)="resetClick.emit()">R</a>
     <a class="card-help" (click)="helpClick.emit()">?</a>
     <a class="card-history" (click)="historyClick.emit()">H</a>
-  </div>
-  <form>
-    <div class="card-body">
-      <ng-content></ng-content>
-    </div>
-    <div class="card-footer">
-      <nc-button id="submit" text="submit" (click)="submitClick.emit()"></nc-button>
-    </div>
-  </form>
-</div>
+  </header>
+  <main>
+    <ng-content></ng-content>
+  </main>
+  <footer *ngIf="showFooter()">
+    <nc-button [label]="submit" type="primary" (click)="submitClick.emit()" />
+  </footer>
+</form>

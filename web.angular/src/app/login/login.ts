@@ -24,6 +24,10 @@ export class Login {
     // Template reads fullName() and re-renders as dependencies change
   });
 
+  onSubmit() {
+    alert(`Hello, ${this.fullName()}! Your title is "${this.title()}" and value is "${this.value()}"`);
+  }
+
   reset() {
     this.firstName.set('');
     this.lastName.set('');
