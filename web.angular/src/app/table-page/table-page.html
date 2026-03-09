@@ -1,3 +1,5 @@
 <div class="table-page">
-  <nc-table [columns]="columns" [dataList]="dataList"></nc-table>
+  <nc-table [columns]="columns" [dataList]="dataList">
+    <ng-template columnDef="name" let-value let-row="row">AAAAAAAAAAAAAAA {{ value }}</ng-template>
+  </nc-table>
 </div>

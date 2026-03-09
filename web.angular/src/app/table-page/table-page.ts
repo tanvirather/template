@@ -1,10 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Components } from '../../components';
 import { TableColumn } from '../../components/table/tableColumn';
 
 @Component({
   selector: 'app-table-page',
-  imports: [...Components],
+  imports: [CommonModule, ...Components],
   templateUrl: './table-page.html',
   styleUrl: './table-page.css',
 })

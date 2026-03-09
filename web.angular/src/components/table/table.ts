@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, TemplateRef } from '@angular/core';
 import { TableColumn } from './tableColumn';
 
 @Component({
@@ -11,11 +11,20 @@ import { TableColumn } from './tableColumn';
 export class Table {
   @Input() columns: TableColumn[] = [];
   @Input() dataList: any[] = [];
+  cellTemplates = new Map<string, TemplateRef<any>>();
 
-  buildCtx(row: any, index: number) {
-    return {
-      $implicit: row,
-      index: index,
-    };
+  getCellContext(row: any, col: TableColumn): { $implicit: any; row: any } {
+    return { $implicit: row[col.key], row };
+  }
+
+  ngAfterContentInit(): void {
+    this.syncTemplates();
+  }
+
+  private syncTemplates(): void {
+    this.cellTemplates.clear();
+    this.columns.forEach((col) => {
+      this.cellTemplates.set(col.key, col.template);
+    });
   }
 }

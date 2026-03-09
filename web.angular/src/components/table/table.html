@@ -10,7 +10,12 @@
     </tr>
     <tr *ngFor="let row of dataList">
       <td *ngFor="let col of columns;let i = index;">
-        <ng-container *ngTemplateOutlet="col.template;context: buildCtx(row, i)"></ng-container>
+        {{col.key}}: {{ col.template }}
+        <ng-container *ngTemplateOutlet="col.template;context: getCellContext(row, col)"></ng-container>
+        <!-- <ng-container *ngIf="cellTemplates.get(col.key) as cellTpl; else defaultCell">
+          <ng-container *ngTemplateOutlet="cellTpl; context: getCellContext(row, col)" />
+        </ng-container>
+        <ng-template #defaultCell>{{col.key}}: {{ cellTemplates.get(col.key) }}</ng-template> -->
       </td>
     </tr>
 

@@ -1,15 +1,15 @@
+import { CommonModule } from '@angular/common';
 import {
+  AfterContentInit,
   Component,
+  ContentChildren,
   Input,
-  OnInit,
   OnChanges,
+  OnInit,
+  QueryList,
   SimpleChanges,
   TemplateRef,
-  ContentChildren,
-  QueryList,
-  AfterContentInit,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ColumnDefDirective } from './column-def.directive';
 
@@ -131,8 +131,8 @@ export class DataTableComponent implements OnInit, OnChanges, AfterContentInit {
         this.sortDirection === 'asc'
           ? 'desc'
           : this.sortDirection === 'desc'
-          ? null
-          : 'asc';
+            ? null
+            : 'asc';
       if (!this.sortDirection) this.sortKey = null;
     } else {
       this.sortKey = col.key;
