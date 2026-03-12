@@ -7,6 +7,7 @@ import { TableColumn } from './tableColumn';
   imports: [CommonModule],
   templateUrl: './table.html',
   styleUrl: './table.css',
+  standalone: true,
 })
 export class Table {
   @Input() columns: TableColumn[] = [];
