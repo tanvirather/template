@@ -9,8 +9,6 @@ export PGPASSWORD=$DB_PASSWORD
 dropdb --host=$DB_HOST --port=$DB_PORT --username=$DB_USER --force --if-exists $DB_NAME
 createdb --host=$DB_HOST --port=$DB_PORT --username=$DB_USER $DB_NAME
 psql --host=$DB_HOST --port=$DB_PORT --username=$DB_USER -d $DB_NAME -c "create extension pgcrypto;"
-psql --host=$DB_HOST --port=$DB_PORT --username=$DB_USER -d $DB_NAME -c "CREATE SCHEMA IF NOT EXISTS identity;"
 psql --host=$DB_HOST --port=$DB_PORT --username=$DB_USER -d $DB_NAME -c "CREATE SCHEMA IF NOT EXISTS product;"
-psql --host=$DB_HOST --port=$DB_PORT --username=$DB_USER -d $DB_NAME -f "identity/users.table.sql"
-psql --host=$DB_HOST --port=$DB_PORT --username=$DB_USER -d $DB_NAME -f "product/postgres_type.table.sql"
+psql --host=$DB_HOST --port=$DB_PORT --username=$DB_USER -d $DB_NAME -f "product/numeric_type.table.sql"
 unset PGPASSWORD

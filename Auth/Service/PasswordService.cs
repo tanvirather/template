@@ -4,15 +4,18 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Zuhid.Auth.Service;
 
-public class PasswordService {
-  private readonly PasswordHasher<string> _hasher = new();
+public class PasswordService
+{
+    private readonly PasswordHasher<string> _hasher = new();
 
-  public string Hash(string userName, string password) {
-    return _hasher.HashPassword(userName, password);
-  }
+    public string Hash(string userName, string password)
+    {
+        return _hasher.HashPassword(userName, password);
+    }
 
-  public bool Verify(string userName, string hashedPassword, string providedPassword) {
-    var result = _hasher.VerifyHashedPassword(userName, hashedPassword, providedPassword);
-    return result == PasswordVerificationResult.Success || result == PasswordVerificationResult.SuccessRehashNeeded;
-  }
+    public bool Verify(string userName, string hashedPassword, string providedPassword)
+    {
+        var result = _hasher.VerifyHashedPassword(userName, hashedPassword, providedPassword);
+        return result == PasswordVerificationResult.Success || result == PasswordVerificationResult.SuccessRehashNeeded;
+    }
 }

@@ -1,3 +1,2 @@
 schema,table,base_schema,base_table
-Identity,Users,Base,Base
-Product,Postgres_Type,Base,Base
+Product,Numeric_Type,Base,Base

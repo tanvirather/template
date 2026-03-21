@@ -4,8 +4,8 @@
     <DataCollectors>
       <DataCollector friendlyName="XPlat code coverage">
         <Configuration>
-          <Include>[Zuhid.Product]*</Include>
-					<Exclude>[Zuhid.Product]*Migrations.*,[Zuhid.Product]*Program,[Zuhid.Product]*AppSetting</Exclude>
+          <Include>[Zuhid.Product]*,[Zuhid.Product.Api]*</Include>
+					<Exclude>[Zuhid.Product]*Migrations.*,[Zuhid.Product.Api]*Program,</Exclude>
         </Configuration>
       </DataCollector>
     </DataCollectors>

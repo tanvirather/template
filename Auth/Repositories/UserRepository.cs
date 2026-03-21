@@ -4,12 +4,14 @@ using Zuhid.Base;
 
 namespace Zuhid.Auth.Repositories;
 
-public class UserRepository(AuthDbContext context) : BaseRepository<AuthDbContext, UserModel, UserEntity>(context) {
+public class UserRepository(AuthDbContext context) : BaseRepository<AuthDbContext, UserModel, UserEntity>(context)
+{
 
-  protected override IQueryable<UserModel> Query => _context.Users.Select(entity => new UserModel {
-    Id = entity.Id,
-    Email = entity.Email,
-  });
+    protected override IQueryable<UserModel> Query => _context.Users.Select(entity => new UserModel
+    {
+        Id = entity.Id,
+        Email = entity.Email,
+    });
 }
 // public async Task<List<UserEntity>> Get() {
 //   return await authDbContext.Users.ToListAsync();

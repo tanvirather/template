@@ -2,8 +2,8 @@ package generate
 
 import (
 	"fmt"
-	"os"
 	"log"
+	"os"
 
 	"zuhid.com/generator/models"
 	"zuhid.com/generator/tools"
@@ -22,7 +22,7 @@ func (postgres *Postgres) Generate(tables []models.Table) error {
 		log.Fatalf("Error deleting output folder: %v", err)
 	}
 
-  postgres.generateDatabase("product");
+	postgres.generateDatabase("product")
 
 	for _, table := range tables {
 		filePath := fmt.Sprintf("%s/%s/%s.csv", postgres.InputPath, table.Schema, table.Table)
@@ -51,40 +51,41 @@ export PGPASSWORD=$DB_PASSWORD
 dropdb --host=$DB_HOST --port=$DB_PORT --username=$DB_USER --force --if-exists $DB_NAME
 createdb --host=$DB_HOST --port=$DB_PORT --username=$DB_USER $DB_NAME
 psql --host=$DB_HOST --port=$DB_PORT --username=$DB_USER -d $DB_NAME -c "create extension pgcrypto;"
-psql --host=$DB_HOST --port=$DB_PORT --username=$DB_USER -d $DB_NAME -c "CREATE SCHEMA IF NOT EXISTS identity;"
 psql --host=$DB_HOST --port=$DB_PORT --username=$DB_USER -d $DB_NAME -c "CREATE SCHEMA IF NOT EXISTS product;"
-psql --host=$DB_HOST --port=$DB_PORT --username=$DB_USER -d $DB_NAME -f "identity/users.table.sql"
-psql --host=$DB_HOST --port=$DB_PORT --username=$DB_USER -d $DB_NAME -f "product/postgres_type.table.sql"
+psql --host=$DB_HOST --port=$DB_PORT --username=$DB_USER -d $DB_NAME -f "product/numeric_type.table.sql"
 unset PGPASSWORD
 `)
 
-// 	script := "#!/bin/bash\n\n"
-// 	script += "set -e\n\n"
-//
-// 	schemas := make(map[string]bool)
-// 	for _, table := range tables {
-// 		schemas[table.Schema] = true
-// 	}
-//
-// 	for schema := range schemas {
-// 		script += fmt.Sprintf("psql -c \"CREATE SCHEMA IF NOT EXISTS %s;\"\n", schema)
-// 	}
-//
-// 	script += "\n"
-//
-// 	for _, table := range tables {
-// 		script += fmt.Sprintf("psql -f %s/%s.table.sql\n", table.Schema, table.Table)
-// 		script += fmt.Sprintf("if [ -f %s/%s.fk.sql ]; then psql -f %s/%s.fk.sql; fi\n", table.Schema, table.Table, table.Schema, table.Table)
-// 		script += fmt.Sprintf("psql -f %s/%s.custom.sql\n", table.Schema, table.Table)
-// 	}
-//
-// 	tools.CreateFile(p.OutputPath, "db.sh", script)
+	// script := "#!/bin/bash\n\n"
+	// script += "set -e\n\n"
+	//
+	// schemas := make(map[string]bool)
+	//
+	//	for _, table := range tables {
+	//		schemas[table.Schema] = true
+	//	}
+	//
+	//	for schema := range schemas {
+	//		script += fmt.Sprintf("psql -c \"CREATE SCHEMA IF NOT EXISTS %s;\"\n", schema)
+	//	}
+	//
+	// script += "\n"
+	//
+	//	for _, table := range tables {
+	//		script += fmt.Sprintf("psql -f %s/%s.table.sql\n", table.Schema, table.Table)
+	//		script += fmt.Sprintf("if [ -f %s/%s.fk.sql ]; then psql -f %s/%s.fk.sql; fi\n", table.Schema, table.Table, table.Schema, table.Table)
+	//		script += fmt.Sprintf("psql -f %s/%s.custom.sql\n", table.Schema, table.Table)
+	//	}
+	//
+	// tools.CreateFile(p.OutputPath, "db.sh", script)
 }
 
 func (p *Postgres) generateTable(table models.Table, columns []models.Column) {
-	tableSql := fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s.%s ();\n", table.SchemaLower(), table.TableLower())
+	schema := table.SchemaLower()
+	tableName := table.TableLower()
+	tableSql := fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s.%s ();\n", schema, tableName)
 	for _, col := range columns {
-		tableSql += fmt.Sprintf("ALTER TABLE %s.%s ADD COLUMN IF NOT EXISTS %s %s", table.SchemaLower(), table.TableLower(), col.ColumnLower(), col.Datatype)
+		tableSql += fmt.Sprintf("ALTER TABLE %s.%s ADD COLUMN IF NOT EXISTS %s %s", schema, tableName, col.ColumnLower(), col.Datatype)
 
 		if col.Length != "" && col.Precision != "" {
 			tableSql += fmt.Sprintf("(%s, %s)", col.Length, col.Precision)
@@ -117,12 +118,11 @@ func (p *Postgres) generateForeignKeys(table models.Table, columns []models.Colu
 			constraintName := fmt.Sprintf("fk_%s_%s_%s_%s_%s", table.SchemaLower(), table.TableLower(), col.ColumnLower(), col.FkSchemaLower(), col.FkTableLower())
 			fkSql += fmt.Sprintf(`DO $$
 BEGIN
-    IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = '%s') THEN
-        ALTER TABLE %s.%s ADD CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s.%s (%s);
-    END IF;
+	IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = '%[1]s') THEN
+  	ALTER TABLE %[2]s.%[3]s ADD CONSTRAINT %[1]s FOREIGN KEY (%[4]s) REFERENCES %[5]s.%[6]s (%[7]s);
+  END IF;
 END $$;
-`,
-				constraintName, table.SchemaLower(), table.TableLower(), constraintName, col.Column, col.FkSchema, col.FkTable, col.FkColumn)
+`, constraintName, table.SchemaLower(), table.TableLower(), col.ColumnLower(), col.FkSchemaLower(), col.FkTableLower(), col.FkColumnLower())
 		}
 	}
 
@@ -134,4 +134,3 @@ END $$;
 func (p *Postgres) generateCustomScript(table models.Table) {
 	tools.CreateFile(p.OutputPath+"/"+table.SchemaLower(), table.TableLower()+".custom.sql", "-- insert custom scripts here")
 }
-

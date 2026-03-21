@@ -35,6 +35,10 @@ func (t *Template) Generate() {
 			targetRelPath := strings.ReplaceAll(relPath, "[Product]", t.Product)
 			targetPath := filepath.Join(t.OutputPath, targetRelPath)
 
+			// delete targetRelPath
+			os.RemoveAll(targetPath)
+
+			// If it's a directory, create it and return
 			if info.IsDir() {
 				return os.MkdirAll(targetPath, os.ModePerm)
 			}

@@ -12,6 +12,7 @@ trim_trailing_whitespace = true
 
 ################################################## C# files ##################################################
 [*.cs]
+indent_size = 4
 
 ######################### .NET Coding Conventions
 # Organize usings
@@ -151,14 +152,14 @@ csharp_using_directive_placement = outside_namespace:error
 ######################### C# Formatting Rules #########################
 
 # New line preferences
-csharp_new_line_before_catch = false
-csharp_new_line_before_else = false
-csharp_new_line_before_finally = false
-csharp_new_line_before_members_in_anonymous_types = false
-csharp_new_line_before_members_in_object_initializers = false
-csharp_new_line_before_open_brace = none # Braces on the same line (Allman style = false)
-csharp_new_line_between_query_expression_clauses = false
-csharp_new_line_before_accessors = false
+csharp_new_line_before_catch = true
+csharp_new_line_before_else = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_anonymous_types = true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_open_brace = all # Braces on the new line (Allman style = true, K&R style = false)
+csharp_new_line_between_query_expression_clauses = true
+csharp_new_line_before_accessors = true
 
 # Indentation preferences
 csharp_indent_block_contents = true

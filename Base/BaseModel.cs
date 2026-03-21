@@ -1,4 +1,5 @@
 namespace Zuhid.Base;
 
-public class BaseModel : BaseEntity {
+public class BaseModel : BaseEntity
+{
 }

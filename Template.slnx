@@ -5,7 +5,6 @@
   <Project Path="Base/Base.csproj" />
   <Project Path="Identity/Identity.csproj" />
   <Project Path="Product.Api/Product.Api.csproj" />
-  <Project Path="Product.Job/Product.Job.csproj" />
   <Project Path="Product.Tests/Product.Tests.csproj" />
   <Project Path="Product/Product.csproj" />
   <Project Path="Web.BlazorWasm/Web.BlazorWasm.csproj" />

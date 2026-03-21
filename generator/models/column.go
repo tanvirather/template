@@ -28,3 +28,6 @@ func (c Column) FkTableLower() string {
 func (c Column) FkColumnLower() string {
 	return strings.ToLower(c.FkColumn)
 }
+func (c Column) ColumnCsharp() string {
+	return strings.ReplaceAll(c.Column, "_", "")
+}

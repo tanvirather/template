@@ -2,7 +2,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Zuhid.Identity.Entities;
 
-public class UserLogin : IdentityUserLogin<Guid> {
+public class UserLogin : IdentityUserLogin<Guid>
+{
 }
 
 

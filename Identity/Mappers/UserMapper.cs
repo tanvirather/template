@@ -4,5 +4,6 @@ using Zuhid.Identity.Models;
 
 namespace Zuhid.Identity.Mappers;
 
-public class UserMapper : BaseMapper<UserModel, UserEntity> {
+public class UserMapper : BaseMapper<UserModel, UserEntity>
+{
 }
