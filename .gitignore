@@ -1,13 +1,1 @@
-.idea
-.angular
 .git
-.venv
-bin
-dist
-Migrations
-node_modules
-obj
-package-lock.json
-TestResults
-output
-tmp

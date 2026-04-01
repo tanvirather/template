@@ -1,5 +1,0 @@
-# https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: dev-namespace
