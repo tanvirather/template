@@ -3,9 +3,9 @@
 import "flag"
 
 type Param struct {
-	Input    string
-	Csharp     string
-	Vue string
+	Input  string
+	Csharp string
+	Vue    string
 }
 
 func Load() Param {
